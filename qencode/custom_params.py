@@ -12,6 +12,7 @@ class CustomTranscodingParams(object):
   def __init__(self):
     self.source = None
     self.format = None
+    self.callback_url = None
 
   def remove_null_params(self):
     rm_key_if_null(self)
@@ -28,6 +29,21 @@ class Format(object):
     self.destination = None
     self.segment_duration = None
     self.stream = None
+    self.logo = None
+    self.start_time = None
+    self.duration = None
+    self.is_watermark = None
+    self.size = None
+    self.video_codec = None
+    self.audio_codec = None
+    self.aspect_ratio = None
+    self.quality = None
+    self.interval = None
+    self.width = None
+    self.height = None
+    self.time = None
+    self.path = None
+    self.resize_mod = None
 
   def remove_null_params(self):
     rm_key_if_null(self)
@@ -37,6 +53,8 @@ class Destination(object):
     self.url = None
     self.key = None
     self.secret = None
+    self.permissions = None
+    self.storage_class = None
 
   def remove_null_params(self):
     rm_key_if_null(self)
@@ -61,6 +79,8 @@ class Stream(object):
     self.audio_channels_number = None
     self.audio_codec = None
     self.downmix_mode = None
+    self.logo = None
+    self.aspect_ratio = None
 
   def remove_null_params(self):
     rm_key_if_null(self)
