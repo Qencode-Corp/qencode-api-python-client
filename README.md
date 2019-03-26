@@ -17,13 +17,15 @@ python setup.py install
 sudo pip install qencode
 ````
 
-####Usage
+##Usage
 
 ````
-from qencode import client
+import qencode
 
-encode_obj = client.QencodeApiClient(API_KEY)
-task = encoder_obj.create_task()
+client = qencode.client(API_KEY)
+client.create()
+
+task = client.create_task()
 task.start(TRANSCODING_PROFILEID, VIDO_URL)
 
 ````
