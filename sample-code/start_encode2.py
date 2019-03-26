@@ -20,7 +20,6 @@ VIDEO_CODEC = qencode.x264_video_codec()
 DESTINATION.url = "s3://s3-eu-west-2.amazonaws.com/qencode-test"
 DESTINATION.key = "AKIAIKZIPSJ7SDAIWK4A"
 DESTINATION.secret = "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"
-DESTINATION.remove_null_params()
 
 VIDEO_CODEC.vprofile = "baseline"
 VIDEO_CODEC.level = 31
@@ -28,18 +27,15 @@ VIDEO_CODEC.coder = 0
 VIDEO_CODEC.flags2 = "-bpyramid+fastpskip-dct8x8"
 VIDEO_CODEC.partitions = "+parti8x8+parti4x4+partp8x8+partb8x8"
 VIDEO_CODEC.directpred = 2
-VIDEO_CODEC.remove_null_params()
 
 STREAM.profile = "baseline"
 STREAM.size = "1920x1080"
 STREAM.audio_bitrate = 128
 STREAM.video_codec_parameters = VIDEO_CODEC
-STREAM.remove_null_params()
 
 FORMAT.stream = [STREAM]
 FORMAT.output = "advanced_hls"
 FORMAT.destination = DESTINATION
-FORMAT.remove_null_params()
 
 params.source = 'https://qa.qencode.com/static/1.mp4'
 params.format = [FORMAT]
@@ -55,7 +51,6 @@ def start_encode():
     :return: client object
   """
   client = qencode.client(API_KEY)
-  client.create()
   if client.error:
     print 'encoder error:', client.error, client.message
     raise SystemExit

@@ -13,6 +13,7 @@ class CustomTranscodingParams(object):
     self.source = None
     self.format = None
     self.callback_url = None
+    rm_key_if_null(self)
 
   def remove_null_params(self):
     rm_key_if_null(self)
@@ -44,6 +45,7 @@ class Format(object):
     self.time = None
     self.path = None
     self.resize_mod = None
+    rm_key_if_null(self)
 
   def remove_null_params(self):
     rm_key_if_null(self)
@@ -55,6 +57,7 @@ class Destination(object):
     self.secret = None
     self.permissions = None
     self.storage_class = None
+    rm_key_if_null(self)
 
   def remove_null_params(self):
     rm_key_if_null(self)
@@ -81,6 +84,7 @@ class Stream(object):
     self.downmix_mode = None
     self.logo = None
     self.aspect_ratio = None
+    rm_key_if_null(self)
 
   def remove_null_params(self):
     rm_key_if_null(self)
@@ -97,6 +101,7 @@ class Libx264_VideoCodecParameters(object):
     self.bf = None
     self.directpred = None
     self.me_method = None
+    rm_key_if_null(self)
 
   def remove_null_params(self):
     rm_key_if_null(self)

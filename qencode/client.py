@@ -15,15 +15,23 @@ class QencodeApiClient(object):
     self.access_token = None
     self.error = None
     self.message = ''
+    self._get_access_token()
 
+  def create_task(self, **kwargs):
+    return Task(self.access_token, self.connect, **kwargs)
 
-  def create(self):
+  def refresh_access_token(self, **kwargs):
+    response = self.connect.request('access_token', dict(api_key=self.api_key))
+    if not response['error']:
+      self.access_token = response['token']
+    else:
+      self.error = response['error']
+      self.message = response.get('message')
+
+  def _get_access_token(self):
     response = self.connect.request('access_token', dict(api_key=self.api_key))
     if not response['error']:
       self.access_token = response['token']
     else:
      self.error = response['error']
      self.message = response.get('message')
-
-  def create_task(self, **kwargs):
-    return Task(self.access_token, self.connect, **kwargs)

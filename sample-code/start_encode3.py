@@ -28,7 +28,6 @@ def start_encode():
     :return: encode object
   """
   client = qencode.client(API_KEY)
-  client.create()
   if client.error:
    print 'encoder error:', client.error, client.message
    raise SystemExit
