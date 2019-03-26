@@ -9,7 +9,7 @@ class QencodeApiClient(object):
   """
   def __init__(self, api_key, api_url=None, version=None, **kwargs):
     self.api_key = api_key
-    self.api_url = api_url if api_url else 'https://api-qa.qencode.com' # 'https://api.qencode.com/'
+    self.api_url = api_url if api_url else 'https://api.qencode.com/'
     self.version = version if version else 'v1'
     self.connect = Http(self.version, self.api_url)
     self.access_token = None
