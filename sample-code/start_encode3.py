@@ -17,10 +17,17 @@ VIDO_URL = 'https://qa.qencode.com/static/1.mp4'
 line = "-" * 80 + "\n"
 
 def my_callback(e):
-  print_status(e)
+  try:
+    print_status(e)
+  except BaseException as e:
+    print str(e)
+
 
 def my_callback2(e):
-  print_status(e)
+  try:
+    print_status(e)
+  except BaseException as e:
+    print str(e)
 
 def print_status(status):
   if not status['error'] and status['status'] != 'error':
