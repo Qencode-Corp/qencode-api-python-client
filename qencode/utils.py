@@ -13,6 +13,11 @@ def get_percent(p):
     return round(p)
   return 0
 
+def rm_key_if_null(class_obj):
+  for key, val in class_obj.__dict__.items():
+    if not val:
+      class_obj.__dict__.pop(key)
+
 def progress_bar(self, custom_message=None):
   message = custom_message if custom_message else ''
   while 1:

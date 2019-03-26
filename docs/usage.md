@@ -81,6 +81,7 @@ VIDEO_CODEC = qencode.x264_video_codec()
 DESTINATION.url = "..."
 DESTINATION.key = "..."
 DESTINATION.secret = "..."
+DESTINATION.remove_null_params()
 
 VIDEO_CODEC.vprofile = "baseline"
 VIDEO_CODEC.level = 31
@@ -88,15 +89,18 @@ VIDEO_CODEC.coder = 0
 VIDEO_CODEC.flags2 = "-bpyramid+fastpskip-dct8x8"
 VIDEO_CODEC.partitions = "+parti8x8+parti4x4+partp8x8+partb8x8"
 VIDEO_CODEC.directpred = 2
+VIDEO_CODEC.remove_null_params()
 
 STREAM.profile = "baseline"
 STREAM.size = "1920x1080"
 STREAM.audio_bitrate = 128
 STREAM.video_codec_parameters = VIDEO_CODEC
+STREAM.remove_null_params()
 
 FORMAT.stream = [STREAM]
 FORMAT.output = "advanced_hls"
 FORMAT.destination = DESTINATION
+FORMAT.remove_null_params()
 
 params.source = 'your source url'
 params.format = [FORMAT]

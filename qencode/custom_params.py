@@ -1,5 +1,6 @@
 import json
 from json import JSONEncoder
+from utils import rm_key_if_null
 
 class CustomTranscodingParams(object):
   """CustomTranscodingParams
@@ -11,6 +12,9 @@ class CustomTranscodingParams(object):
   def __init__(self):
     self.source = None
     self.format = None
+
+  def remove_null_params(self):
+    rm_key_if_null(self)
 
 class Format(object):
   """
@@ -25,11 +29,17 @@ class Format(object):
     self.segment_duration = None
     self.stream = None
 
+  def remove_null_params(self):
+    rm_key_if_null(self)
+
 class Destination(object):
   def __init__(self):
     self.url = None
     self.key = None
     self.secret = None
+
+  def remove_null_params(self):
+    rm_key_if_null(self)
 
 class Stream(object):
   def __init__(self):
@@ -52,6 +62,10 @@ class Stream(object):
     self.audio_codec = None
     self.downmix_mode = None
 
+  def remove_null_params(self):
+    rm_key_if_null(self)
+
+
 
 class Libx264_VideoCodecParameters(object):
   def __init__(self):
@@ -63,6 +77,9 @@ class Libx264_VideoCodecParameters(object):
     self.bf = None
     self.directpred = None
     self.me_method = None
+
+  def remove_null_params(self):
+    rm_key_if_null(self)
 
 class Libx265_VideoCodecParameters(object):
   def __init__(self):
