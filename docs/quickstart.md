@@ -13,13 +13,13 @@ python setup.py install
 **Usage**
 
 ````
-from qencode import encoder, task
+import qencode
 
-encoder_obj = encoder(API_KEY, api_url=API_URL)
-encoder_obj.create_encoder()
+client = qencode.client(API_KEY)
+client.create()
 
-task_obj = task(encoder_obj.access_token, encoder_obj.connect)
-task_obj.start(TRANSCODING_PROFILEID, VIDO_URL)
+task = client.create_task()
+task.start(TRANSCODING_PROFILEID, VIDO_URL)
 
 ````
 

@@ -82,5 +82,4 @@ def start_encode():
 
 
 if __name__ == '__main__':
-  #start_encode()
-  pass
+  start_encode()

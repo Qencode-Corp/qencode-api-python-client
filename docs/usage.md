@@ -3,48 +3,57 @@
 **Usage by transcoding profile ID**
 
 ````
-from qencode import encoder, task
+import sys
+import os.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+import qencode
 import time
 
-API_KEY = 'Your Api Key'
-TRANSCODING_PROFILEID = 'Your Profile ID'
 
-VIDO_URL = 'Sourse Video Url'
-API_URL = 'https://qa.qencode.com'
+API_KEY = 'Your API KEY'
+TRANSCODING_PROFILEID = 'Your profile ID'
+VIDO_URL = 'your source url'
+
 
 
 def start_encode():
   """
-    Create encoder object
-    :param api_key: string
+    Create client object
+    :param api_key: string. required
     :param api_url: string. not required
-    :return: encode object
+    :param api_version: int. not required. default 'v1'
+    :return: client object
   """
-  encoder_obj = encoder(API_KEY, api_url=API_URL)
-  encoder_obj.create_encoder()
-  if encoder_obj.error:
-   print 'encoder error:', encoder_obj.error, encoder_obj.message
+  client = qencode.client(API_KEY)
+  client.create()
+  if client.error:
+   print 'encoder error:', client.error, client.message
    raise SystemExit
 
   """
-    Create task
-    :param access_token: string. access_token from encoder object
-    :param connect: string. connect object from encoder object
     :return: task object
   """
-  task_obj = task(encoder_obj.access_token, encoder_obj.connect)
-  task_obj.start(TRANSCODING_PROFILEID, VIDO_URL)
-  if task_obj.error:    
+  task = client.create_task()
+  task.start_time = 0.0
+  task.duration = 10.0
+  task.start(TRANSCODING_PROFILEID, VIDO_URL)
+  if task.error:
+    print 'task error:', task.error, task.message
     raise SystemExit
 
   while True:
-    status = task_obj.status()
-    print status
+    status = task.status()
+    print '{0} | {1} | {2} | error: {3}'.format(VIDO_URL,
+                                                status.get('status'),
+                                                status.get('percent'),
+                                                status.get('error'),
+                                                status.get('error_description'))
     if status['error']:
       break
     if status['status'] == 'completed':
       break
     time.sleep(15)
+
 
 if __name__ == '__main__':
    start_encode()
@@ -53,70 +62,79 @@ if __name__ == '__main__':
 **Usage by custom parameters**
 
 ````
-from qencode import encoder, task, custom_params
+import sys
+import os.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+import qencode
 import time
 
-API_KEY = 'Your Api Key'
-API_URL = 'https://qa.qencode.com'
+API_KEY = 'Your API KEY'
 
-format = custom_params.format
-stream = custom_params.stream
-destination = custom_params.destination
-video_codec = custom_params.x264_video_codec
-params = custom_params.base
+params = qencode.custom_params()
 
-destination.url = "s3://s3-eu-west-2.amazonaws.com/qencode-test"
-destination.key = "AKIAIKZIPSJ7SDAIWK4A"
-destination.secret = "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"
+FORMAT = qencode.format()
+STREAM = qencode.stream()
+DESTINATION = qencode.destination()
+VIDEO_CODEC = qencode.x264_video_codec()
 
-video_codec.vprofile = "baseline"
-video_codec.level = 31
-video_codec.coder = 0
-video_codec.flags2 = "-bpyramid+fastpskip-dct8x8"
-video_codec.partitions = "+parti8x8+parti4x4+partp8x8+partb8x8"
-video_codec.directpred = 2
 
-stream.size = "1920x1080"
-stream.audio_bitrate = 128
-stream.video_codec_parameters = video_codec
+DESTINATION.url = "..."
+DESTINATION.key = "..."
+DESTINATION.secret = "..."
 
-format.stream = [stream]
-format.output = "advanced_hls"
-format.destination = destination
+VIDEO_CODEC.vprofile = "baseline"
+VIDEO_CODEC.level = 31
+VIDEO_CODEC.coder = 0
+VIDEO_CODEC.flags2 = "-bpyramid+fastpskip-dct8x8"
+VIDEO_CODEC.partitions = "+parti8x8+parti4x4+partp8x8+partb8x8"
+VIDEO_CODEC.directpred = 2
 
-params.source = 'https://qa.stagevids.com/static/1.mp4'
-params.format = [format]
+STREAM.profile = "baseline"
+STREAM.size = "1920x1080"
+STREAM.audio_bitrate = 128
+STREAM.video_codec_parameters = VIDEO_CODEC
 
+FORMAT.stream = [STREAM]
+FORMAT.output = "advanced_hls"
+FORMAT.destination = DESTINATION
+
+params.source = 'your source url'
+params.format = [FORMAT]
 
 
 def start_encode():
 
   """
-     Create encoder object
-     :param api_key: string
-     :param api_url: string. not required
-     :return: encode object
-   """
-  encoder_obj = encoder(API_KEY, api_url=API_URL)
-  encoder_obj.create_encoder()
-  if encoder_obj.error:
-    print 'encoder error:', encoder_obj.error, encoder_obj.message
+    Create client object
+    :param api_key: string. required
+    :param api_url: string. not required
+    :param api_version: int. not required. default 'v1'
+    :return: client object
+  """
+  client = qencode.client(API_KEY)
+  client.create()
+  if client.error:
+    print 'encoder error:', client.error, client.message
     raise SystemExit
 
   """
-      Create task
-      :param access_token: string. access_token from encoder object
-      :param connect: string. connect object from encoder object
-      :return: task object
-    """
-  task_obj = task(encoder_obj.access_token, encoder_obj.connect)
-  task_obj.custom_start(params)
-  if task_obj.error:    
+    Create task
+    :return: task object
+  """
+
+  task = client.create_task()
+  task.custom_start(params)
+  if task.error:
+    print 'task error:', task.error, task.message
     raise SystemExit
 
   while True:
-    status = task_obj.status()
-    print status
+    status = task.status()
+    print '{0} | {1} | {2} | error: {3}'.format(params.source,
+                                                status.get('status'),
+                                                status.get('percent'),
+                                                status.get('error'),
+                                                status.get('error_description'))
     if status['error']:
       break
     if status['status'] == 'completed':
@@ -125,7 +143,7 @@ def start_encode():
 
 
 if __name__ == '__main__':
-   start_encode()
+  start_encode()
 ````
 **Usage with callback methods**
 
@@ -138,12 +156,12 @@ def my_callback2(e):
   
 ...
 
-task_obj.start(TRANSCODING_PROFILEID, VIDO_URL)
-if task_obj.error:    
+task.start(TRANSCODING_PROFILEID, VIDO_URL)
+if task.error:    
  raise SystemExit
 
-task_obj.progress_changed(my_callback)
-task_obj.task_completed(my_callback2)
+task.progress_changed(my_callback)
+task.task_completed(my_callback2)
 ````
 
 **Documentation**
