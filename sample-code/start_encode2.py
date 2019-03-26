@@ -6,6 +6,7 @@ import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 import qencode
 import time
+import json
 
 API_KEY = '5a5db6fa5b4c5'
 
@@ -40,6 +41,7 @@ FORMAT.destination = DESTINATION
 params.source = 'https://qa.qencode.com/static/1.mp4'
 params.format = [FORMAT]
 
+line = "-" * 80 + "\n"
 
 def start_encode():
 
@@ -50,9 +52,11 @@ def start_encode():
     :param api_version: int. not required. default 'v1'
     :return: client object
   """
+
+  print line
   client = qencode.client(API_KEY)
   if client.error:
-    print 'encoder error:', client.error, client.message
+    print 'Error: %s\n' % client.message
     raise SystemExit
 
   """
@@ -63,22 +67,33 @@ def start_encode():
   task = client.create_task()
   task.custom_start(params)
   if task.error:
-    print 'task error:', task.error, task.message
+    print 'Error: %s' % task.message
     raise SystemExit
 
   while True:
     status = task.status()
-    print '{0} | {1} | {2} | error: {3}'.format(params.source,
-                                                status.get('status'),
-                                                status.get('percent'),
-                                                status.get('error'),
-                                                status.get('error_description'))
+    try:
+      print_status(status)
+    except BaseException as e:
+      print str(e)
     if status['error']:
       break
     if status['status'] == 'completed':
       break
-    time.sleep(15)
+    time.sleep(10)
 
+def print_status(status):
+  if not status['error'] and status['status'] != 'error':
+    print "Status: {0} {1}%".format(status.get('status'), status.get('percent'))
+  elif status['error'] or status['status'] == 'error':
+    print "Error: %s\n" % (status.get('error_description'))
+  if status['status'] == 'completed':
+    print line
+    for video in status['videos']:
+      meta = json.loads(video['meta'])
+      print 'Resolution: %s' % meta.get('resolution')
+      print 'Url: %s' % video.get('url')
+    print line
 
 if __name__ == '__main__':
   start_encode()

@@ -136,33 +136,25 @@ class Query(object):
       self.error = True
       self.message = 'for custom start encode - params is required'
       return
-    if not self.params.source:
+    if not 'source' in self.params.__dict__:
       self.error = True
       self.message = 'Params: source is required'
       return
-    if not self.params.format:
+    if not 'format' in self.params.__dict__:
       self.error = True
       self.message = 'Params: format is required'
       return
     for format in self.params.format:
-      if not format.stream:
+      if not 'stream' in format.__dict__:
         self.error = True
         self.message = 'Params: stream is required in the format list'
         return
-      if not format.output:
+      if not 'output' in format.__dict__:
         self.error = True
         self.message = 'Params: output format is required in the format list'
         return
-      if not format.destination:
-        self.error = True
-        self.message = 'Params: destination is required in the format list'
-        return
       for stream in format.stream:
-        if not stream.video_codec_parameters:
-          self.error = True
-          self.message = 'Params: video_codec_parameters is required in the stream list'
-          return
-        if not stream.size:
+        if not 'size' in stream.__dict__:
           self.error = True
           self.message = 'Params: size is required in the stream list'
           return
