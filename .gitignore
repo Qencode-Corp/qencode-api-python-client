@@ -1,1 +1,10 @@
-.idea
+.env
+.DS_Store
+
+*.log
+*.sql
+*.pyc
+
+.cache/
+.vscode/
+.idea/
