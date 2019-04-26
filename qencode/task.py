@@ -148,23 +148,25 @@ class Task(object):
   def main_status(self):
     return self._status2()
 
-  def progress_changed(self, callback):
+  def progress_changed(self, callback, *args, **kwargs):
     while 1:
       status = self._status()
       if status['error']:
-        return callback(status)
-      callback(status)
+        return callback(status, *args, **kwargs)
+      callback(status, *args, **kwargs)
       if status.get('status') in COMPLETED_STATUS:
         break
       time.sleep(SLEEP_REGULAR)
 
 
-  def task_completed(self, callback):
+  def task_completed(self, callback, *args, **kwargs):
     while 1:
       status = self._status()
       if status['error']:
-        return callback(status)
+        return callback(status, *args, **kwargs)
       if status.get('status') in COMPLETED_STATUS:
-        return callback(status)
+        return callback(status, *args, **kwargs)
+      if status.get('status') in COMPLETED_STATUS:
+        break
       time.sleep(SLEEP_REGULAR)
 
