@@ -10,6 +10,12 @@ pip install -r requirements.txt
 python setup.py install
 ````
 
+**install from pip**
+
+````
+sudo pip install qencode
+````
+
 **Usage**
 
 ````
