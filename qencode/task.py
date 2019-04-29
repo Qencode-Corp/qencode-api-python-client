@@ -138,7 +138,7 @@ class Task(object):
       if not self.error:
         self._create_task(1)
         data = self._prepare_data2(query, **kwargs)
-        print data
+
 
         if not self.error and self.task_token:
           self._start_encode('start_encode2', data)
