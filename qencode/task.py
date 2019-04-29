@@ -112,25 +112,39 @@ class Task(object):
           :return: None
 
     """
-    query_obj = Query()
-    query_obj.params = params
-    query_obj.validate_params()
-    if query_obj.error:
-      self.error = query_obj.error
-      self.message = query_obj.message
-      return
+    if params is not None:
+      query_obj = Query()
+      query_obj.params = params
+      query_obj.validate_params()
+      if query_obj.error:
+        self.error = query_obj.error
+        self.message = query_obj.message
+        return
 
-    query_obj.prepare_params()
-    if query_obj.error:
-      self.error = query_obj.error
-      self.message = query_obj.message
+      query_obj.prepare_params()
+      if query_obj.error:
+        self.error = query_obj.error
+        self.message = query_obj.message
 
-    if not self.error:
-      self._create_task(1)
-      data = self._prepare_data2(query_obj.query, **kwargs)
+      if not self.error:
+        self._create_task(1)
+        data = self._prepare_data2(query_obj.query, **kwargs)
 
-      if not self.error and self.task_token:
-        self._start_encode('start_encode2', data)
+        if not self.error and self.task_token:
+          self._start_encode('start_encode2', data)
+
+    elif kwargs.get('query') is not None:
+      query = kwargs.get('query')      
+      if not self.error:
+        self._create_task(1)
+        data = self._prepare_data2(query, **kwargs)
+        print data
+
+        if not self.error and self.task_token:
+          self._start_encode('start_encode2', data)
+    else:
+      self.error = True
+      self.mesage = 'params or query is required'
 
 
   def status(self):

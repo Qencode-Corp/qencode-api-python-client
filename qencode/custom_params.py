@@ -127,7 +127,7 @@ class Query(object):
     query = dict(query=self.params)
     try:
       self.query = json.dumps(query, cls=MyEncoder, encoding='utf-8')
-    except BaseException as e:
+    except Exception as e:
       self.error = True
       self.message = repr(e)
 
