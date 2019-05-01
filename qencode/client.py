@@ -13,6 +13,7 @@ class QencodeApiClient(object):
     self.version = version if version else 'v1'
     self.connect = Http(self.version, self.api_url)
     self.access_token = None
+    self.expire = None
     self.error = None
     self.message = ''
     self._get_access_token()
@@ -24,6 +25,7 @@ class QencodeApiClient(object):
     response = self.connect.request('access_token', dict(api_key=self.api_key))
     if not response['error']:
       self.access_token = response['token']
+      self.expire = response['expire']
     else:
       self.error = response['error']
       self.message = response.get('message')
@@ -32,6 +34,7 @@ class QencodeApiClient(object):
     response = self.connect.request('access_token', dict(api_key=self.api_key))
     if not response['error']:
       self.access_token = response['token']
+      self.expire = response['expire']
     else:
      self.error = response['error']
      self.message = response.get('message')

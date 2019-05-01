@@ -61,11 +61,13 @@ class Task(object):
       self.message = res.get('message')
 
   def _status(self):
-    response = self.connect.post(self.status_url, dict(task_tokens=self.task_token))
+    response = self.connect.post(self.status_url, dict(task_tokens=self.task_token))   
     if not response['error']:
         status = response['statuses'][self.task_token]
         if not status:
           status = self._status2()
+        if status.get('status_url'):
+          self.status_url = status.get('status_url')
         return status
     else:
       status = self._status2()
@@ -73,10 +75,12 @@ class Task(object):
 
 
   def _status2(self):
-    response = self.connect.request('status', {'task_tokens[]': self.task_token})
+    response = self.connect.request('status', {'task_tokens[]': self.task_token})    
     if not response['error']:
       res = response['statuses'][self.task_token]
       if res:
+        if res.get('status_url'):
+          self.status_url = res.get('status_url')
         return res
       else:
         return dict(error=True, message='Error getting status')
