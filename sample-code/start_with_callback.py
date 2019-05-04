@@ -20,6 +20,16 @@ TRANSCODING_PROFILEID = 'your-qencode-profile-id'
 VIDEO_URL = 'https://qa.qencode.com/static/1.mp4'
 
 
+def progress_changed_handler(status):
+  if status['status'] != 'completed':
+    print json.dumps(status, indent=2, sort_keys=True)
+
+
+def task_completed_handler(status, task_token):
+  print 'Completed task: %s' % task_token
+  print json.dumps(status, indent=2, sort_keys=True)
+
+
 def start_encode():
   """
     Create client object
@@ -49,13 +59,10 @@ def start_encode():
 
   print 'Start encode. Task: %s' % task.task_token
 
-  while True:
-    status = task.status()
-    print json.dumps(status, indent=2, sort_keys=True)
-    # print status
-    if status['error'] or status['status'] == 'completed':
-      break
-    time.sleep(5)
+  # using callback methods
+  task.progress_changed(progress_changed_handler)
+  task.task_completed(task_completed_handler, task.task_token)
+
 
 if __name__ == '__main__':
-  start_encode()
+   start_encode()

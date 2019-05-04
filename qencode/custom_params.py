@@ -1,6 +1,6 @@
 import json
 from json import JSONEncoder
-from utils import rm_key_if_null
+from utils import rm_attributes_if_null
 
 class CustomTranscodingParams(object):
   """CustomTranscodingParams
@@ -13,10 +13,10 @@ class CustomTranscodingParams(object):
     self.source = None
     self.format = None
     self.callback_url = None
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
   def remove_null_params(self):
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
 class Format(object):
   """
@@ -45,10 +45,10 @@ class Format(object):
     self.time = None
     self.path = None
     self.resize_mod = None
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
   def remove_null_params(self):
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
 class Destination(object):
   def __init__(self):
@@ -57,10 +57,10 @@ class Destination(object):
     self.secret = None
     self.permissions = None
     self.storage_class = None
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
   def remove_null_params(self):
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
 class Stream(object):
   def __init__(self):
@@ -84,12 +84,10 @@ class Stream(object):
     self.downmix_mode = None
     self.logo = None
     self.aspect_ratio = None
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
   def remove_null_params(self):
-    rm_key_if_null(self)
-
-
+    rm_attributes_if_null(self)
 
 class Libx264_VideoCodecParameters(object):
   def __init__(self):
@@ -101,10 +99,10 @@ class Libx264_VideoCodecParameters(object):
     self.bf = None
     self.directpred = None
     self.me_method = None
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
   def remove_null_params(self):
-    rm_key_if_null(self)
+    rm_attributes_if_null(self)
 
 class Libx265_VideoCodecParameters(object):
   def __init__(self):
@@ -134,7 +132,7 @@ class Query(object):
   def validate_params(self):
     if not self.params:
       self.error = True
-      self.message = 'for custom start encode - params is required'
+      self.message = 'Params is required'
       return
     if not 'source' in self.params.__dict__:
       self.error = True
@@ -144,19 +142,3 @@ class Query(object):
       self.error = True
       self.message = 'Params: format is required'
       return
-    for format in self.params.format:
-      if not 'stream' in format.__dict__:
-        self.error = True
-        self.message = 'Params: stream is required in the format list'
-        return
-      if not 'output' in format.__dict__:
-        self.error = True
-        self.message = 'Params: output format is required in the format list'
-        return
-      for stream in format.stream:
-        if not 'size' in stream.__dict__:
-          self.error = True
-          self.message = 'Params: size is required in the stream list'
-          return
-
-

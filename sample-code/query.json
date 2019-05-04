@@ -1,0 +1,13 @@
+{"query": {
+
+  "source": "https://qa.qencode.com/static/test_mini.mp4",
+  "format": [
+    {
+      "output": "mp4",
+      "size": "320x240",
+      "video_codec": "libx264"
+
+    }
+  ]
+}
+}

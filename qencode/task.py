@@ -1,8 +1,8 @@
-from custom_params import Query
+from custom_params import Query, CustomTranscodingParams
 from const import *
 import time
 import json
-from utils import get_percent
+from utils import is_json, rm_key_if_null
 
 
 class Task(object):
@@ -16,7 +16,96 @@ class Task(object):
     self.error = None
     self.repeat = kwargs.get('repeats') if kwargs.get('repeats') else REPEAT
 
+  def start(self, profiles, video_url, **kwargs):
+    """Creating task and starting encode
 
+      :param profiles: String or List object. Profile uuid
+      :param transfer_method: String. Transfer method uuid
+      :param video_url: String. Url of source video
+      :param payload: String.
+      :return: None
+
+    """
+    if not self.error:
+      self._create_task(1)
+      data = self._prepare_data(profiles, video_url, **kwargs)
+
+      if not self.error and self.task_token:
+        self._start_encode('start_encode', data)
+
+  def custom_start(self, data,  **kwargs):
+    """Creating task and starting encode
+
+          :param query: JSON object for query param. For examples: https://docs.qencode.com
+          :param payload: String.
+          :return: None
+
+    """
+    if data is None:
+      self.error = True
+      self.message = 'Params is required'
+      
+    if not self.error:
+      self._create_task(1)
+
+    if not self.error:
+      data = self._prepare_data_custom(self._prepare_query(data), **kwargs)
+
+    if not self.error and self.task_token:
+      self._start_encode('start_encode2', data)
+
+   
+      
+
+  def status(self):
+    return self._status()
+
+  def main_status(self):
+    return self._status2()
+
+  def progress_changed(self, callback, *args, **kwargs):
+    while 1:
+      status = self._status()
+      if status['error']:
+        return callback(status, *args, **kwargs)
+      callback(status, *args, **kwargs)
+      if status.get('status') in COMPLETED_STATUS:
+        break
+      time.sleep(SLEEP_REGULAR)
+
+  def task_completed(self, callback, *args, **kwargs):
+    while 1:
+      status = self._status()
+      if status['error']:
+        return callback(status, *args, **kwargs)
+      if status.get('status') in COMPLETED_STATUS:
+        return callback(status, *args, **kwargs)
+      if status.get('status') in COMPLETED_STATUS:
+        break
+      time.sleep(SLEEP_REGULAR)
+
+  def _prepare_query(self, params):    
+    if isinstance(params, CustomTranscodingParams):
+      query_obj = Query()
+      query_obj.params = params
+      query_obj.validate_params()
+      if query_obj.error:
+        self.error = query_obj.error
+        self.message = query_obj.message
+      query_obj.prepare_params()
+      if query_obj.error:
+        self.error = query_obj.error
+        self.message = query_obj.message
+      return query_obj.query
+    
+    if isinstance(params, dict):
+      query = rm_key_if_null(params)      
+      return json.dumps(query)
+    
+    if isinstance(params, str):
+      if is_json(params):
+        query = rm_key_if_null(params)
+        return query
 
   def _prepare_data(self, profiles, video_url, **kwargs):
     data = dict(
@@ -28,7 +117,7 @@ class Task(object):
       data.update(kwargs)
     return data
 
-  def _prepare_data2(self, query_json, **kwargs):
+  def _prepare_data_custom(self, query_json, **kwargs):
     data = dict(
       task_token=self.task_token,
       query=query_json
@@ -36,7 +125,6 @@ class Task(object):
     if kwargs:
       data.update(kwargs)
     return data
-
 
   def _create_task(self, count):
     res = self.connect.request('create_task', dict(token=self.access_token))
@@ -61,7 +149,7 @@ class Task(object):
       self.message = res.get('message')
 
   def _status(self):
-    response = self.connect.post(self.status_url, dict(task_tokens=self.task_token))   
+    response = self.connect.post(self.status_url, dict(task_tokens=self.task_token))
     if not response['error']:
         status = response['statuses'][self.task_token]
         if not status:
@@ -73,9 +161,8 @@ class Task(object):
       status = self._status2()
       return status
 
-
   def _status2(self):
-    response = self.connect.request('status', {'task_tokens[]': self.task_token})    
+    response = self.connect.request('status', {'task_tokens[]': self.task_token})
     if not response['error']:
       res = response['statuses'][self.task_token]
       if res:
@@ -86,105 +173,4 @@ class Task(object):
         return dict(error=True, message='Error getting status')
     else:
       return response
-
-
-
-
-  def start(self, profiles, video_url, **kwargs):
-    """Creating task and starting encode
-
-      :param profiles: String or List object. Profile uuid
-      :param transfer_method: String. Transfer method uuid
-      :param video_url: String. Url of source video
-      :param payload: String.
-      :return: None
-
-    """
-    if not self.error:
-      self._create_task(1)
-      data = self._prepare_data(profiles, video_url, **kwargs)
-
-      if not self.error and self.task_token:
-        self._start_encode('start_encode', data)
-
-
-  def custom_start(self, params,  **kwargs):
-    """Creating task and starting encode
-
-          :param query: JSON object for query param. For examples: https://docs.qencode.com
-          :param payload: String.
-          :return: None
-
-    """
-    if params is not None:
-      query_obj = Query()
-      query_obj.params = params
-      query_obj.validate_params()
-      if query_obj.error:
-        self.error = query_obj.error
-        self.message = query_obj.message
-        return
-
-      query_obj.prepare_params()
-      if query_obj.error:
-        self.error = query_obj.error
-        self.message = query_obj.message
-
-      if not self.error:
-        self._create_task(1)
-        data = self._prepare_data2(query_obj.query, **kwargs)
-
-        if not self.error and self.task_token:
-          self._start_encode('start_encode2', data)
-
-    elif kwargs.get('query') is not None:
-      query = kwargs.get('query')      
-      if not self.error:
-        self._create_task(1)
-        data = self._prepare_data2(query, **kwargs)
-
-
-        if not self.error and self.task_token:
-          self._start_encode('start_encode2', data)
-    else:
-      self.error = True
-      self.mesage = 'params or query is required'
-
-
-  def status(self):
-    """Getting status of encode from master-server.
-        real time updating.
-
-            :return: JSON object:
-                {
-                  'status' : 'encoding', 'percent': '50.90'  'error': 0 ...
-                }
-
-        """
-    return self._status()
-
-  def main_status(self):
-    return self._status2()
-
-  def progress_changed(self, callback, *args, **kwargs):
-    while 1:
-      status = self._status()
-      if status['error']:
-        return callback(status, *args, **kwargs)
-      callback(status, *args, **kwargs)
-      if status.get('status') in COMPLETED_STATUS:
-        break
-      time.sleep(SLEEP_REGULAR)
-
-
-  def task_completed(self, callback, *args, **kwargs):
-    while 1:
-      status = self._status()
-      if status['error']:
-        return callback(status, *args, **kwargs)
-      if status.get('status') in COMPLETED_STATUS:
-        return callback(status, *args, **kwargs)
-      if status.get('status') in COMPLETED_STATUS:
-        break
-      time.sleep(SLEEP_REGULAR)
 

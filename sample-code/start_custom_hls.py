@@ -9,18 +9,39 @@ import time
 import json
 from qencode import QencodeClientException, QencodeTaskException
 
-
 #replace with your API KEY (can be found in your Project settings on Qencode portal)
 API_KEY = 'your-api-qencode-key'
 
-#replace with your Transcoding Profile ID (can be found in your Project settings on Qencode portal)
-TRANSCODING_PROFILEID = 'your-qencode-profile-id'
+params = qencode.custom_params()
+
+FORMAT = qencode.format()
+STREAM = qencode.stream()
+DESTINATION = qencode.destination()
+
+# set your S3 access credentials here
+# for more storage types see Destination object description: https://docs.qencode.com/#010_050
+DESTINATION.url = "s3://s3-eu-west-2.amazonaws.com/qencode-test"
+DESTINATION.key = "your-s3-key"
+DESTINATION.secret = "your-s3-secret"
+
+# stream object is specified for HLS or DASH outputs only.
+# for MP4 or WEBM output set properties below in format object directly
+STREAM.profile = "baseline"
+STREAM.size = "320x240"
+STREAM.audio_bitrate = 128
+
+
+FORMAT.stream = [STREAM]
+FORMAT.output = "advanced_hls"
+FORMAT.destination = DESTINATION
 
 #replace with a link to your input video
-VIDEO_URL = 'https://qa.qencode.com/static/1.mp4'
+params.source = 'https://qa.qencode.com/static/1.mp4'
+params.format = [FORMAT]
 
 
 def start_encode():
+
   """
     Create client object
     :param api_key: string. required
@@ -36,13 +57,11 @@ def start_encode():
   print 'The client created. Expire date: %s' % client.expire
 
   task = client.create_task()
-  task.start_time = 0.0
-  task.duration = 10.0
 
   if task.error:
     raise QencodeTaskException(task.message)
 
-  task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+  task.custom_start(params)
 
   if task.error:
     raise QencodeTaskException(task.message)
@@ -51,11 +70,12 @@ def start_encode():
 
   while True:
     status = task.status()
-    print json.dumps(status, indent=2, sort_keys=True)
     # print status
+    print json.dumps(status, indent=2, sort_keys=True)
     if status['error'] or status['status'] == 'completed':
       break
     time.sleep(5)
+
 
 if __name__ == '__main__':
   start_encode()
