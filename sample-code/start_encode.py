@@ -17,7 +17,9 @@ API_KEY = 'your-api-qencode-key'
 TRANSCODING_PROFILEID = 'your-qencode-profile-id'
 
 #replace with a link to your input video
-VIDEO_URL = 'https://qa.qencode.com/static/1.mp4'
+VIDEO_URL = 'https://qencode.com/static/1.mp4'
+# or stitch
+#STITCH = ["https://qencode.com/static/1.mp4", 'https://qencode.com/static/timer.mp4']
 
 
 def start_encode():
@@ -43,6 +45,8 @@ def start_encode():
     raise QencodeTaskException(task.message)
 
   task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+  #or stitch
+  #task.start(TRANSCODING_PROFILEID, STITCH)
 
   if task.error:
     raise QencodeTaskException(task.message)

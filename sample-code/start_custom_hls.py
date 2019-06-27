@@ -36,7 +36,7 @@ FORMAT.output = "advanced_hls"
 FORMAT.destination = DESTINATION
 
 #replace with a link to your input video
-params.source = 'https://qa.qencode.com/static/1.mp4'
+params.source = 'https://qencode.com/static/1.mp4'
 params.format = [FORMAT]
 
 

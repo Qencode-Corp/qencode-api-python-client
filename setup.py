@@ -8,7 +8,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='qencode',
-    version='0.9.14',
+    version='0.9.15',
     description='Qencode Python SDK',
     url='https://github.com/qencode-dev/qencode-api-python-client',
     # url=here,
@@ -16,7 +16,7 @@ setup(
     author_email='team@qencode.com',
     license='proprietary',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: Other/Proprietary License',

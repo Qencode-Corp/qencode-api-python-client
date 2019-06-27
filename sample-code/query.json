@@ -1,6 +1,6 @@
 {"query": {
 
-  "source": "https://qa.qencode.com/static/test_mini.mp4",
+  "source": "https://qencode.com/static/test_mini.mp4",
   "format": [
     {
       "output": "mp4",

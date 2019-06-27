@@ -17,7 +17,7 @@ API_KEY = 'your-api-qencode-key'
 TRANSCODING_PROFILEID = 'your-qencode-profile-id'
 
 #replace with a link to your input video
-VIDEO_URL = 'https://qa.qencode.com/static/1.mp4'
+VIDEO_URL = 'https://qencode.com/static/1.mp4'
 
 
 def progress_changed_handler(status):

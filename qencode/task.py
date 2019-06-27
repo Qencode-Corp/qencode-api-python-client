@@ -110,9 +110,15 @@ class Task(object):
   def _prepare_data(self, profiles, video_url, **kwargs):
     data = dict(
       task_token=self.task_token,
-      uri=video_url,
       profiles=', '.join(profiles) if type(profiles).__name__ == 'list' else profiles
     )
+    if isinstance(video_url, list):
+      try:
+        data.update(stitch=json.dumps(video_url))
+      except Exception:
+        data.update(stitch=video_url)
+    else:
+      data.update(uri=video_url)
     if kwargs:
       data.update(kwargs)
     return data
