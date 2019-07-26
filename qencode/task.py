@@ -105,7 +105,7 @@ class Task(object):
       query = rm_key_if_null(params)      
       return json.dumps(query)
     
-    if isinstance(params, str):
+    if isinstance(params, basestring):
       if is_json(params):
         query = rm_key_if_null(params)
         return query

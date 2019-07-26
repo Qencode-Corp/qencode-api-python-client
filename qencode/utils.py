@@ -29,7 +29,7 @@ def rm_attributes_if_null(class_obj):
 def rm_key_if_null(obj):
   if isinstance(obj, dict):
     return _rm_key(obj)
-  elif isinstance(obj, str):
+  elif isinstance(obj, basestring):
     res = _rm_key(json.loads(obj))
     return json.dumps(res)
 
