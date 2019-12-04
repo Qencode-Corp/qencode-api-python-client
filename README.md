@@ -35,7 +35,7 @@ Documentation is available at <https://docs.qencode.com>
 
 **Description**
 
-Inside this library, you will find sample code for creating [video transcoding](https://cloud.qencode.com/) tasks, launching transcoding jobs, video clipping and receiving callbacks. Updates are posted on a regular basis and we are open to any improvements or suggestions you may have.
+Inside this library, you will find sample code for creating [video transcoding](https://cloud.qencode.com/) tasks, launching encoding jobs, video clipping and receiving callbacks. Updates are posted on a regular basis and we are open to any improvements or suggestions you may have.
 
 Some of the options Qencode offers for transcoding your videos at scale:
 
