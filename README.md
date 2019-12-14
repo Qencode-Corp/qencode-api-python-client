@@ -42,7 +42,7 @@ Some of the options Qencode offers for transcoding your videos at scale:
 Resolution
  * 8K
  * 4K
- * 1140p 
+ * 1440p 
  * 1080p 
  * 720p 
  * 480p 
