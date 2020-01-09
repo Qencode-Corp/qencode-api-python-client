@@ -15,6 +15,8 @@ class Task(object):
     self.message = ''
     self.error = None
     self.repeat = kwargs.get('repeats') if kwargs.get('repeats') else REPEAT
+    self._create_task(1)
+
 
   def start(self, profiles, video_url, **kwargs):
     """Creating task and starting encode
@@ -27,7 +29,7 @@ class Task(object):
 
     """
     if not self.error:
-      self._create_task(1)
+      # self._create_task(1)
       data = self._prepare_data(profiles, video_url, **kwargs)
 
       if not self.error and self.task_token:
@@ -45,8 +47,8 @@ class Task(object):
       self.error = True
       self.message = 'Params is required'
       
-    if not self.error:
-      self._create_task(1)
+    #if not self.error:
+    #  self._create_task(1)
 
     if not self.error:
       query = self._prepare_query(data)
