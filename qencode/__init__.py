@@ -29,7 +29,7 @@ def x265_video_codec():
 
 from exeptions import QencodeClientException, QencodeTaskException
 
-__version__ = "0.9.27"
+__version__ = "0.9.28"
 __status__ = "Beta"
 __author__ = "Qencode"
 

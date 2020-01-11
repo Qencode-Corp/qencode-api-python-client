@@ -10,6 +10,7 @@ class Task(object):
     self.connect = connect
     self.status_url = None
     self.task_token = None
+    self.upload_url = None
     self.access_token = access_token
     self._debug = debug
     self.message = ''
@@ -150,6 +151,7 @@ class Task(object):
     res = self.connect.request('create_task', dict(token=self.access_token))
     if not res['error']:
       self.task_token = res.get('task_token')
+      self.upload_url = res.get('upload_url')
     else:
       self.error = res['error']
       self.message = res.get('message')
