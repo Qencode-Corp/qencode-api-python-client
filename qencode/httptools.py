@@ -11,7 +11,7 @@ class Http(object):
 
   def _call_server(self, url, post_data):
     if not url:
-      response = dict(error=True, message='AttributeError: not URL')
+      response = dict(error=True, message='AttributeError: Bad URL')
       return json.dumps(response)
     data = urllib.urlencode(post_data)
     request = urllib2.Request(url, data)
