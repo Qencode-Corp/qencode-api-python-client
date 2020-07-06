@@ -27,7 +27,7 @@ def x265_video_codec():
   from custom_params import Libx265_VideoCodecParameters
   return Libx265_VideoCodecParameters()
 
-from exeptions import QencodeClientException, QencodeTaskException
+from exceptions import QencodeClientException, QencodeTaskException
 
 __version__ = "0.9.29"
 __status__ = "Beta"
