@@ -2,7 +2,7 @@
 
 **Usage by transcoding profile ID**
 
-````
+```
 import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
@@ -12,7 +12,7 @@ import time
 
 API_KEY = 'Your API KEY'
 TRANSCODING_PROFILEID = 'Your profile ID'
-VIDO_URL = 'your source url'
+VIDEO_URL = 'your source url'
 
 
 
@@ -36,14 +36,14 @@ def start_encode():
   task = client.create_task()
   task.start_time = 0.0
   task.duration = 10.0
-  task.start(TRANSCODING_PROFILEID, VIDO_URL)
+  task.start(TRANSCODING_PROFILEID, VIDEO_URL)
   if task.error:
     print 'task error:', task.error, task.message
     raise SystemExit
 
   while True:
     status = task.status()
-    print '{0} | {1} | {2} | error: {3}'.format(VIDO_URL,
+    print '{0} | {1} | {2} | error: {3}'.format(VIDEO_URL,
                                                 status.get('status'),
                                                 status.get('percent'),
                                                 status.get('error'),
@@ -57,11 +57,11 @@ def start_encode():
 
 if __name__ == '__main__':
    start_encode()
-````
+```
 
 **Usage by custom parameters**
 
-````
+```
 import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
@@ -144,25 +144,26 @@ def start_encode():
 
 if __name__ == '__main__':
   start_encode()
-````
+```
+
 **Usage with callback methods**
 
-````
+```
 def my_callback(e):
   print e
 
 def my_callback2(e):
   print e
-  
+
 ...
 
-task.start(TRANSCODING_PROFILEID, VIDO_URL)
-if task.error:    
+task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+if task.error:
  raise SystemExit
 
 task.progress_changed(my_callback)
 task.task_completed(my_callback2)
-````
+```
 
 **Documentation**
 
