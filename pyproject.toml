@@ -1,3 +1,6 @@
+[tool.black]
+skip-string-normalization = true
+
 [tool.poetry]
 name = "qencode-api-python-client"
 version = "1.0.0"
