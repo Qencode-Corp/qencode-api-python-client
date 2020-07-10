@@ -8,6 +8,8 @@
 .cache/
 .vscode/
 .idea/
+.vim/
+
 .eggs/
 build/
 dist/
