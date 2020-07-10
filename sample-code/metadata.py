@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-import os.path
+import os
 import sys
 
 import qencode
@@ -19,7 +18,7 @@ client = qencode.client(API_KEY)
 if client.error:
     raise QencodeClientException(client.message)
 
-print 'The client created. Expire date: %s' % client.expire
+print('The client created. Expire date: %s' % client.expire)
 
 metadata = client.get_metadata(VIDEO_URL)
-print ('Metadata: ' + metadata)
+print('Metadata: ' + metadata)

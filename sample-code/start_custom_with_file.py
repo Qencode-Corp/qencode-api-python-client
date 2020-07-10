@@ -26,9 +26,9 @@ def get_query_template():
                 file_data = json.load(data)
                 return json.dumps(file_data)
             except ValueError as e:
-                print e
+                print(e)
     except IOError as e:
-        print e
+        print(e)
 
 
 params = get_query_template()
@@ -48,7 +48,7 @@ def start_encode():
     if client.error:
         raise QencodeClientException(client.message)
 
-    print 'The client created. Expire date: %s' % client.expire
+    print('The client created. Expire date: %s' % client.expire)
 
     task = client.create_task()
 
@@ -60,12 +60,12 @@ def start_encode():
     if task.error:
         raise QencodeTaskException(task.message)
 
-    print 'Start encode. Task: %s' % task.task_token
+    print('Start encode. Task: %s' % task.task_token)
 
     while True:
         status = task.status()
         # print status
-        print json.dumps(status, indent=2, sort_keys=True)
+        print(json.dumps(status, indent=2, sort_keys=True))
         if status['error'] or status['status'] == 'completed':
             break
         time.sleep(5)
