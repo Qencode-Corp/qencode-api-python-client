@@ -1,8 +1,9 @@
 """A setuptools based setup module.
 """
 
-from setuptools import setup
 from os import path
+
+from setuptools import setup
 
 here = path.abspath(path.dirname(__file__))
 
@@ -25,9 +26,8 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: Other/Proprietary License',
-        'Programming Language :: Python :: 2.7'
-
+        'Programming Language :: Python :: 2.7',
     ],
     keywords='qencode, qencode.com, cloud.qencode.com',
-    packages=['qencode']
+    packages=['qencode'],
 )
