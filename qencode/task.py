@@ -1,9 +1,10 @@
 import json
 import time
 
-from const import *
-from custom_params import CustomTranscodingParams, Query
-from utils import is_json, rm_key_if_null
+from . import const as constants
+from ._compat import string_types
+from .custom_params import CustomTranscodingParams, Query
+from .utils import is_json, rm_key_if_null
 
 
 class Task(object):
@@ -19,19 +20,20 @@ class Task(object):
         self._debug = debug
         self.message = ''
         self.error = None
-        self.repeat = kwargs.get('repeats') if kwargs.get('repeats') else REPEAT
+        self.repeat = (
+            kwargs.get('repeats') if kwargs.get('repeats') else constants.REPEAT
+        )
         self._create_task(1)
 
     def start(self, profiles, video_url, **kwargs):
-        """Creating task and starting encode
+        """Creating task and starting encode.
 
-      :param profiles: String or List object. Profile uuid
-      :param transfer_method: String. Transfer method uuid
-      :param video_url: String. Url of source video
-      :param payload: String.
-      :return: None
-
-    """
+        :param profiles: String or List object. Profile uuid
+        :param transfer_method: String. Transfer method uuid
+        :param video_url: String. Url of source video
+        :param payload: String.
+        :return: None
+        """
         if not self.error:
             # self._create_task(1)
             data = self._prepare_data(profiles, video_url, **kwargs)
@@ -42,11 +44,11 @@ class Task(object):
     def custom_start(self, data, **kwargs):
         """Creating task and starting encode
 
-          :param query: JSON object for query param. For examples: https://docs.qencode.com
-          :param payload: String.
-          :return: None
-
-    """
+        :param query: 
+            JSON object for query param. For examples: https://docs.qencode.com
+        :param payload: String.
+        :return: None
+        """
         if data is None:
             self.error = True
             self.message = 'Params is required'
@@ -75,20 +77,20 @@ class Task(object):
             if status['error']:
                 return callback(status, *args, **kwargs)
             callback(status, *args, **kwargs)
-            if status.get('status') in COMPLETED_STATUS:
+            if status.get('status') in constants.COMPLETED_STATUS:
                 break
-            time.sleep(SLEEP_REGULAR)
+            time.sleep(constants.SLEEP_REGULAR)
 
     def task_completed(self, callback, *args, **kwargs):
         while 1:
             status = self._status()
             if status['error']:
                 return callback(status, *args, **kwargs)
-            if status.get('status') in COMPLETED_STATUS:
+            if status.get('status') in constants.COMPLETED_STATUS:
                 return callback(status, *args, **kwargs)
-            if status.get('status') in COMPLETED_STATUS:
+            if status.get('status') in constants.COMPLETED_STATUS:
                 break
-            time.sleep(SLEEP_REGULAR)
+            time.sleep(constants.SLEEP_REGULAR)
 
     def _prepare_query(self, params):
         if isinstance(params, CustomTranscodingParams):
@@ -108,20 +110,19 @@ class Task(object):
             query = rm_key_if_null(params)
             return json.dumps(query)
 
-        if isinstance(params, basestring):
+        if isinstance(params, string_types):
             if is_json(params):
                 query = rm_key_if_null(params)
                 return query
             else:
                 self.error = True
+                error_msg = "JSON is not well formatted"
                 try:
-                    self.message = "JSON is not well formatted: {0} Is not defined".format(
-                        params
-                    )
-                except Exception as e:
+                    self.message = "{}: {} Is not defined".format(error_msg, params)
+                except Exception:
                     pass
                 finally:
-                    self.message = "JSON is not well formatted"
+                    self.message = error_msg
 
     def _prepare_data(self, profiles, video_url, **kwargs):
         data = dict(
@@ -157,8 +158,8 @@ class Task(object):
             self.message = res.get('message')
 
         if self.error and self.error == 8:
-            if count < REPEAT:
-                time.sleep(SLEEP_ERROR)
+            if count < constants.REPEAT:
+                time.sleep(constants.SLEEP_ERROR)
                 self._create_task(count + 1)
 
     def _start_encode(self, api_name, data):
@@ -174,7 +175,7 @@ class Task(object):
         response = self.connect.post(self.status_url, dict(task_tokens=self.task_token))
         status = None
 
-        if response['error'] == ERROR_BAD_TOKENS:
+        if response['error'] == constants.ERROR_BAD_TOKENS:
             raise ValueError('Bad token: ' + str(self.task_token))
 
         if 'statuses' in response and self.task_token in response['statuses']:

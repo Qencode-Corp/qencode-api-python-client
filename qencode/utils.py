@@ -2,12 +2,14 @@ import json
 import logging
 import sys
 
+from ._compat import string_types
+
 
 def is_number(s):
     try:
         float(s)
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -34,7 +36,7 @@ def rm_attributes_if_null(class_obj):
 def rm_key_if_null(obj):
     if isinstance(obj, dict):
         return _rm_key(obj)
-    elif isinstance(obj, basestring):
+    elif isinstance(obj, string_types):
         res = _rm_key(json.loads(obj))
         return json.dumps(res)
 
@@ -92,5 +94,5 @@ def get_tus_from_url(url=''):
                 return url
             else:
                 return 'tus:' + x
-    except:
+    except Exception:
         return url

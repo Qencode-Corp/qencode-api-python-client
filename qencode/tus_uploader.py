@@ -1,5 +1,3 @@
-import sys
-
 from tusclient import client
 from utils import get_tus_from_url
 
@@ -31,6 +29,6 @@ def upload(file_path=None, url=None, chunk_size=None, log_func=None):
         url_storage = uploader.url
         tus_url = get_tus_from_url(url_storage)
         return UploadStatus(url=tus_url, status='Ok', error='')
-    except:
+    except Exception:
         print('Error uploading file to ' + url)
         raise

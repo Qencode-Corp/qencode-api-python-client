@@ -8,9 +8,9 @@ class CustomTranscodingParams(object):
     """CustomTranscodingParams
 
     :var source: String. Source video URI. Can be http(s) url or tus uri
-    :var format: String. A list of objects, each describing params for a single output video stream (MP4, WEBM, HLS or MPEG-DASH)
-
-  """
+    :var format: String. A list of objects, each describing params for a single output 
+    video stream (MP4, WEBM, HLS or MPEG-DASH)
+    """
 
     def __init__(self):
         self.source = None
@@ -143,11 +143,11 @@ class Query(object):
             self.error = True
             self.message = 'Params is required'
             return
-        if not 'source' in self.params.__dict__:
+        if 'source' not in self.params.__dict__:
             self.error = True
             self.message = 'Params: source is required'
             return
-        if not 'format' in self.params.__dict__:
+        if 'format' not in self.params.__dict__:
             self.error = True
             self.message = 'Params: format is required'
             return
