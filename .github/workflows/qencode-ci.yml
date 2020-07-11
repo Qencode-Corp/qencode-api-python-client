@@ -30,5 +30,6 @@ jobs:
       run: |
         poetry run py.test --cov=./ --cov-report=xml
     - uses: codecov/codecov-action@v1
+      continue-on-error: true
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
