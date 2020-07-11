@@ -2,7 +2,7 @@
 
 **Usage by transcoding profile ID**
 
-````
+```
 import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
@@ -57,11 +57,11 @@ def start_encode():
 
 if __name__ == '__main__':
    start_encode()
-````
+```
 
 **Usage by custom parameters**
 
-````
+```
 import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
@@ -144,25 +144,26 @@ def start_encode():
 
 if __name__ == '__main__':
   start_encode()
-````
+```
+
 **Usage with callback methods**
 
-````
+```
 def my_callback(e):
   print e
 
 def my_callback2(e):
   print e
-  
+
 ...
 
 task.start(TRANSCODING_PROFILEID, VIDO_URL)
-if task.error:    
+if task.error:
  raise SystemExit
 
 task.progress_changed(my_callback)
 task.task_completed(my_callback2)
-````
+```
 
 **Documentation**
 
