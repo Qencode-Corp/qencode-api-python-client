@@ -2,7 +2,7 @@
 skip-string-normalization = true
 
 [tool.poetry]
-name = "qencode-api-python-client"
+name = "qencode"
 version = "1.0.0"
 description = "Python bindings for the Qencode API"
 authors = ["Qencode Team <team@qencode.com>"]
