@@ -1,15 +1,16 @@
 import json
 from json import JSONEncoder
 
-from utils import rm_attributes_if_null
+from .utils import rm_attributes_if_null
 
 
 class CustomTranscodingParams(object):
     """CustomTranscodingParams
 
     :var source: String. Source video URI. Can be http(s) url or tus uri
-    :var format: String. A list of objects, each describing params for a single output 
-    video stream (MP4, WEBM, HLS or MPEG-DASH)
+    :var format: String.
+        A list of objects, each describing params for a single output video stream (MP4,
+        WEBM, HLS or MPEG-DASH)
     """
 
     def __init__(self):
@@ -23,12 +24,6 @@ class CustomTranscodingParams(object):
 
 
 class Format(object):
-    """
-      :var
-      :var
-
-    """
-
     def __init__(self):
         self.output = None
         self.file_extension = None

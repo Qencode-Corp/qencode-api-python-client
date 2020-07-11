@@ -2,7 +2,7 @@ import urllib2
 
 from task import *
 
-from qencode import QencodeTaskException
+from .exceptions import QencodeTaskException
 
 
 class Metadata(Task):

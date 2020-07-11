@@ -4,12 +4,6 @@ from task import Task
 
 
 class QencodeApiClient(object):
-
-    """
-      :return: encoder object
-
-    """
-
     def __init__(self, api_key, api_url=None, version=None):
         self.api_key = api_key
         self.api_url = api_url if api_url else 'https://api.qencode.com/'
