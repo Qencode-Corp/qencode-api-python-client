@@ -40,7 +40,7 @@ def x265_video_codec():
     return Libx265_VideoCodecParameters()
 
 
-from exeptions import QencodeClientException, QencodeTaskException
+from exceptions import QencodeClientException, QencodeTaskException
 
 __version__ = "1.0"
 __status__ = "Production/Stable"
