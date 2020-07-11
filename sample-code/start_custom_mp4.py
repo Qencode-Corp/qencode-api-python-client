@@ -16,10 +16,10 @@ sys.path.append(
 # replace with your API KEY (can be found in your Project settings on Qencode portal)
 API_KEY = 'your-api-qencode-key'
 
-params = qencode.custom_params()
+params = qencode.CustomTranscodingParams()
 
-FORMAT = qencode.format()
-DESTINATION = qencode.destination()
+FORMAT = qencode.Format()
+DESTINATION = qencode.Destination()
 
 # set your S3 access credentials here for more storage types see Destination object
 # description: https://docs.qencode.com/#010_050

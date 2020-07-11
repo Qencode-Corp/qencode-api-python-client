@@ -62,12 +62,12 @@ import qencode
 
 API_KEY = 'Your API KEY'
 
-params = qencode.custom_params()
+params = qencode.CustomTranscodingParams()
 
-FORMAT = qencode.format()
-STREAM = qencode.stream()
-DESTINATION = qencode.destination()
-VIDEO_CODEC = qencode.x264_video_codec()
+FORMAT = qencode.Format()
+STREAM = qencode.Stream()
+DESTINATION = qencode.Destination()
+VIDEO_CODEC = qencode.Libx264_VideoCodecParameters()
 
 
 DESTINATION.url = "..."
