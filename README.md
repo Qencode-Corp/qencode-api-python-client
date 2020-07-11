@@ -1,24 +1,36 @@
-## qencode-api-python-client
+# Qencode Python Library
 
-**install sdk libraries from github**
+The Qencode Python library provides convenient access to the Qencode API
+for applications written in the Python language.
 
-```
-cd your-workspace-folder
-git clone https://github.com/qencode-dev/qencode-api-python-client
-cd qencode-api-python-client
-pip install -r requirements.txt
-python setup.py install
-```
+Inside this repository in sample-code/, there are examples of [video transcoding](https://cloud.qencode.com/)
+tasks, launching encoding jobs, video clipping and receiving callbacks. Updates are posted on a regular basis and we are open to any improvements or suggestions you may have.
 
-**install from pip**
+## Installation
 
-```
+You don't need the source code unless you want to modify the package itself.
+If you just want to use the package:
+
+```sh
 pip install --upgrade qencode
 ```
 
-**Usage**
+## Contributing
 
+To modify the package, install [poetry](https://python-poetry.org/docs/#installation)
+and checkout the source:
+
+```sh
+cd your-workspace-folder
+git clone https://github.com/qencode-dev/qencode-api-python-client
+cd qencode-api-python-client
+poetry shell
+poetry install
 ```
+
+## Usage
+
+```python
 import qencode
 
 client = qencode.client(API_KEY)
@@ -27,19 +39,15 @@ client.create()
 task = client.create_task()
 task.start(TRANSCODING_PROFILEID, VIDEO_URL)
 
-
-#getting video metadata:
+# Getting video metadata
 metadata = client.get_metadata(VIDEO_URL)
-
 ```
 
-**Documentation**
+## Documentation
 
 Documentation is available at <https://docs.qencode.com>
 
-**Description**
-
-Inside this library, you will find sample code for creating [video transcoding](https://cloud.qencode.com/) tasks, launching encoding jobs, video clipping and receiving callbacks. Updates are posted on a regular basis and we are open to any improvements or suggestions you may have.
+## Features
 
 Some of the options Qencode offers for transcoding your videos at scale:
 
