@@ -1,7 +1,6 @@
-from task import Task
-
 from .httptools import Http
 from .metadata import Metadata
+from .task import Task
 
 
 class Client(object):
