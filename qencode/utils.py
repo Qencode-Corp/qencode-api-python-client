@@ -28,9 +28,10 @@ def is_json(value):
 
 
 def rm_attributes_if_null(class_obj):
-    for key, val in class_obj.__dict__.items():
-        if not val:
-            class_obj.__dict__.pop(key)
+    attrs = list(key for key in class_obj.__dict__.keys() if not key.startswith('__'))
+    for attr in attrs:
+        if getattr(class_obj, attr, None) is None:
+            delattr(class_obj, attr)
 
 
 def rm_key_if_null(obj):
