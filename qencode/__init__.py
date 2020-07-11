@@ -1,3 +1,6 @@
+from .exceptions import QencodeClientException, QencodeTaskException
+
+
 def client(api_key, api_url=None, version=None, **kwargs):
     from client import QencodeApiClient
 
@@ -39,8 +42,6 @@ def x265_video_codec():
 
     return Libx265_VideoCodecParameters()
 
-
-from exceptions import QencodeClientException, QencodeTaskException
 
 __version__ = "1.0"
 __status__ = "Production/Stable"
