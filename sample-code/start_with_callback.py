@@ -43,7 +43,7 @@ def start_encode():
     :return: task object
     """
 
-    client = qencode.client(API_KEY)
+    client = qencode.Client(api_key=API_KEY)
     if client.error:
         raise QencodeClientException(client.message)
 

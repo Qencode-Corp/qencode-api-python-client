@@ -15,7 +15,7 @@ VIDEO_URL = 'your source url'
 
 
 def start_encode():
-    client = qencode.client(API_KEY)
+    client = qencode.Client(api_key=API_KEY)
     client.create()
     if client.error:
         print 'encoder error:', client.error, client.message
@@ -102,7 +102,7 @@ def start_encode():
     :param api_version: int. not required. default 'v1'
     :return: client object
     """
-    client = qencode.client(API_KEY)
+    client = qencode.Client(api_key=API_KEY)
     client.create()
     if client.error:
         print('encoder error:', client.error, client.message)

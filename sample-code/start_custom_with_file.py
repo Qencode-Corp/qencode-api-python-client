@@ -42,9 +42,9 @@ def start_encode():
     :param api_url: string. not required
     :param api_version: int. not required. default 'v1'
     :return: task object
-  """
+    """
 
-    client = qencode.client(API_KEY)
+    client = qencode.Client(api_key=API_KEY)
     if client.error:
         raise QencodeClientException(client.message)
 

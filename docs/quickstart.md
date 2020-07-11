@@ -27,7 +27,7 @@ poetry install
 ```python
 import qencode
 
-client = qencode.client(API_KEY)
+client = qencode.Client(api_key=API_KEY)
 client.create()
 
 task = client.create_task()
