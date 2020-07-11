@@ -13,7 +13,7 @@ python setup.py install
 **install from pip**
 
 ```
-sudo pip install qencode
+pip install --upgrade qencode
 ```
 
 **Usage**
