@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import json
 
 from ._compat import HTTPError, Request, URLError, urlencode, urljoin, urlopen
@@ -13,7 +15,7 @@ class Http(object):
         if not url:
             response = dict(error=True, message='AttributeError: Bad URL')
             return json.dumps(response)
-        data = urlencode(post_data)
+        data = urlencode(post_data).encode("utf-8")
         request = Request(url, data)
         try:
             res = urlopen(request)
