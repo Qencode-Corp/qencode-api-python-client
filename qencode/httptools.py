@@ -1,7 +1,6 @@
 import json
-import urllib
-import urllib2
-from urlparse import urljoin
+
+from ._compat import HTTPError, Request, URLError, urlencode, urljoin, urlopen
 
 
 class Http(object):
@@ -14,18 +13,18 @@ class Http(object):
         if not url:
             response = dict(error=True, message='AttributeError: Bad URL')
             return json.dumps(response)
-        data = urllib.urlencode(post_data)
-        request = urllib2.Request(url, data)
+        data = urlencode(post_data)
+        request = Request(url, data)
         try:
-            res = urllib2.urlopen(request)
-        except urllib2.HTTPError as e:
+            res = urlopen(request)
+        except HTTPError as e:
             headers = e.headers if self._debug else ''
             response = dict(
                 error=True,
                 message='HTTPError: {0} {1} {2}'.format(e.code, e.reason, headers),
             )
             response = json.dumps(response)
-        except urllib2.URLError as e:
+        except URLError as e:
             response = dict(error=True, message='URLError: {0}'.format(e.reason))
             response = json.dumps(response)
         else:
