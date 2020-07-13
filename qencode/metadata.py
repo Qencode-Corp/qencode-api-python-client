@@ -1,3 +1,4 @@
+import time
 import urllib2
 
 from .exceptions import QencodeTaskException
