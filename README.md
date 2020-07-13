@@ -25,7 +25,11 @@ client = qencode.client(API_KEY)
 client.create()
 
 task = client.create_task()
-task.start(TRANSCODING_PROFILEID, VIDO_URL)
+task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+
+
+#getting video metadata:
+metadata = client.get_metadata(VIDEO_URL)
 
 ````
 

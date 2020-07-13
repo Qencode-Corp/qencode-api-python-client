@@ -1,5 +1,6 @@
 from httptools import Http
 from task import Task
+from metadata import Metadata
 
 class QencodeApiClient(object):
 
@@ -43,3 +44,8 @@ class QencodeApiClient(object):
       self.error = response['error']
       self.code = response['error']
       self.message = response.get('message')
+
+  def get_metadata(self, uri):
+    metadata = Metadata(self.access_token, self.connect)
+    video_info = metadata.get(uri)
+    return video_info
