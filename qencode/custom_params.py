@@ -1,6 +1,7 @@
 import json
 from json import JSONEncoder
 
+from ._compat import PY2
 from .utils import rm_attributes_if_null
 
 
@@ -128,7 +129,8 @@ class Query(object):
     def prepare_params(self):
         query = dict(query=self.params)
         try:
-            self.query = json.dumps(query, cls=MyEncoder, encoding='utf-8')
+            dump_kwargs = {'encoding': 'utf-8'} if PY2 else {}
+            self.query = json.dumps(query, cls=MyEncoder, **dump_kwargs)
         except Exception as e:
             self.error = True
             self.message = repr(e)
