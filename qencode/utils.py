@@ -66,3 +66,16 @@ def log(self, path=None, name=None, log_format=None):
    log.info('{0} | {1} | {2}'.format(self.status, self.percent, self.message))
    if self.task_completed:
      break
+
+def get_tus_from_url(url=''):
+  try:
+      if url.find('tus:') == 0:
+        return url
+      else:
+        x = url.split('/')[-1]
+        if x == url:
+          return url
+        else:
+          return 'tus:' + x
+  except:
+      return url

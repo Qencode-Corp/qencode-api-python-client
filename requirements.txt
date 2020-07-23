@@ -2,3 +2,4 @@ json
 urllib
 urllib2
 urlparse
+tuspy
