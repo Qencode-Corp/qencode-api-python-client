@@ -1,35 +1,38 @@
+# Quickstart
+
 ## Installation
 
-**install sdk libraries from github**
+You don't need the source code unless you want to modify the package itself.
+If you just want to use the package:
 
-````
+```sh
+pip install --upgrade qencode
+```
+
+# Contributing
+
+To modify the package, install [poetry](https://python-poetry.org/docs/#installation)
+and checkout the source:
+
+```sh
 cd your-workspace-folder
 git clone https://github.com/qencode-dev/qencode-api-python-client
 cd qencode-api-python-client
-pip install -r requirements.txt
-python setup.py install
-````
+poetry shell
+poetry install
+```
 
-**install from pip**
+## Usage
 
-````
-sudo pip install qencode
-````
-
-**Usage**
-
-````
+```python
 import qencode
 
-client = qencode.client(API_KEY)
+client = qencode.Client(api_key=API_KEY)
 client.create()
 
 task = client.create_task()
-task.start(TRANSCODING_PROFILEID, VIDO_URL)
+```
 
-````
-
-
-**Documentation**
+## Documentation
 
 Documentation is available at <https://docs.qencode.com>

@@ -1,16 +1,5 @@
-import unittest
+import qencode
 
 
-class TestQencodeApiClient(unittest.TestCase):
-
-    def setUp(self):
-      pass
-
-    def tearDown(self):
-      pass
-
-    def test_create_task(self):
-        pass
-
-if __name__ == '__main__':
-    unittest.main()
+def test_client():
+    assert qencode

@@ -1,81 +1,73 @@
-##Usage
+# Usage
 
-**Usage by transcoding profile ID**
+## Usage by transcoding profile ID
 
-````
-import sys
+```python
 import os.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-import qencode
+import sys
 import time
 
+import qencode
 
 API_KEY = 'Your API KEY'
 TRANSCODING_PROFILEID = 'Your profile ID'
-VIDO_URL = 'your source url'
-
+VIDEO_URL = 'your source url'
 
 
 def start_encode():
-  """
-    Create client object
-    :param api_key: string. required
-    :param api_url: string. not required
-    :param api_version: int. not required. default 'v1'
-    :return: client object
-  """
-  client = qencode.client(API_KEY)
-  client.create()
-  if client.error:
-   print 'encoder error:', client.error, client.message
-   raise SystemExit
+    client = qencode.Client(api_key=API_KEY)
+    client.create()
+    if client.error:
+        print 'encoder error:', client.error, client.message
+        raise SystemExit
 
-  """
-    :return: task object
-  """
-  task = client.create_task()
-  task.start_time = 0.0
-  task.duration = 10.0
-  task.start(TRANSCODING_PROFILEID, VIDO_URL)
-  if task.error:
-    print 'task error:', task.error, task.message
-    raise SystemExit
+    task = client.create_task()
+    task.start_time = 0.0
+    task.duration = 10.0
+    task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+    if task.error:
+        print 'task error:', task.error, task.message
+        raise SystemExit
 
-  while True:
-    status = task.status()
-    print '{0} | {1} | {2} | error: {3}'.format(VIDO_URL,
-                                                status.get('status'),
-                                                status.get('percent'),
-                                                status.get('error'),
-                                                status.get('error_description'))
-    if status['error']:
-      break
-    if status['status'] == 'completed':
-      break
-    time.sleep(15)
+    while True:
+        status = task.status()
+        print (
+            '{0} | {1} | {2} | error: {3}'.format(
+                VIDEO_URL,
+                status.get('status'),
+                status.get('percent'),
+                status.get('error'),
+                status.get('error_description'),
+            )
+        )
+        if status['error']:
+            break
+        if status['status'] == 'completed':
+            break
+        time.sleep(15)
 
 
 if __name__ == '__main__':
-   start_encode()
-````
+    start_encode()
+```
 
-**Usage by custom parameters**
+## Usage by custom parameters
 
-````
-import sys
+```python
 import os.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-import qencode
+import sys
 import time
+
+import qencode
 
 API_KEY = 'Your API KEY'
 
-params = qencode.custom_params()
+params = qencode.CustomTranscodingParams()
 
-FORMAT = qencode.format()
-STREAM = qencode.stream()
-DESTINATION = qencode.destination()
-VIDEO_CODEC = qencode.x264_video_codec()
+FORMAT = qencode.Format()
+STREAM = qencode.Stream()
+DESTINATION = qencode.Destination()
+VIDEO_CODEC = qencode.Libx264_VideoCodecParameters()
 
 
 DESTINATION.url = "..."
@@ -103,67 +95,72 @@ params.format = [FORMAT]
 
 
 def start_encode():
-
-  """
+    """
     Create client object
     :param api_key: string. required
     :param api_url: string. not required
     :param api_version: int. not required. default 'v1'
     :return: client object
-  """
-  client = qencode.client(API_KEY)
-  client.create()
-  if client.error:
-    print 'encoder error:', client.error, client.message
-    raise SystemExit
+    """
+    client = qencode.Client(api_key=API_KEY)
+    client.create()
+    if client.error:
+        print('encoder error:', client.error, client.message)
+        raise SystemExit
 
-  """
+    """
     Create task
     :return: task object
-  """
+    """
+    task = client.create_task()
+    task.custom_start(params)
+    if task.error:
+        print('task error:', task.error, task.message)
+        raise SystemExit
 
-  task = client.create_task()
-  task.custom_start(params)
-  if task.error:
-    print 'task error:', task.error, task.message
-    raise SystemExit
-
-  while True:
-    status = task.status()
-    print '{0} | {1} | {2} | error: {3}'.format(params.source,
-                                                status.get('status'),
-                                                status.get('percent'),
-                                                status.get('error'),
-                                                status.get('error_description'))
-    if status['error']:
-      break
-    if status['status'] == 'completed':
-      break
-    time.sleep(15)
+    while True:
+        status = task.status()
+        print(
+            '{0} | {1} | {2} | error: {3}'.format(
+                params.source,
+                status.get('status'),
+                status.get('percent'),
+                status.get('error'),
+                status.get('error_description'),
+            )
+        )
+        if status['error']:
+            break
+        if status['status'] == 'completed':
+            break
+        time.sleep(15)
 
 
 if __name__ == '__main__':
-  start_encode()
-````
-**Usage with callback methods**
+    start_encode()
+```
 
-````
-def my_callback(e):
-  print e
+## Usage with callback methods
 
-def my_callback2(e):
-  print e
-  
-...
+```
+def on_process_changed(process_data):
+    print('on_process_changed', process_data)
 
-task.start(TRANSCODING_PROFILEID, VIDO_URL)
-if task.error:    
- raise SystemExit
+
+def on_task_completed(process_data):
+    print('on_task_completed', process_data)
+
+
+# ...
+
+task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+if task.error:
+    raise SystemExit
 
 task.progress_changed(my_callback)
-task.task_completed(my_callback2)
-````
+task.task_completed(on_task_completed)
+```
 
-**Documentation**
+## Documentation
 
 Documentation is available at <https://docs.qencode.com>
