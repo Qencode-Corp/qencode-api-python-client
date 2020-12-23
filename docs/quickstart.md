@@ -21,11 +21,28 @@ sudo pip install qencode
 ````
 import qencode
 
+API_KEY = 'your-api-qencode-key'
+
+QUERY = """
+{"query": {
+  "source": "https://nyc3.s3.qencode.com/qencode/samples/1080-sample.mov",
+  "format": [
+    {
+      "output": "mp4",
+      "size": "320x240",
+      "video_codec": "libx264"
+    }
+  ]
+  }
+}
+"""
+
 client = qencode.client(API_KEY)
 client.create()
 
 task = client.create_task()
-task.start(TRANSCODING_PROFILEID, VIDO_URL)
+task.custom_start(QUERY)
+
 
 ````
 
