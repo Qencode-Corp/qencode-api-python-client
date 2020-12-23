@@ -125,3 +125,6 @@ Transfer & Storage Options
  * FTP 
  * HTTP(S) 
  * VPN
+ 
+ ## Copyright
+ Copyright 2021 Qencode, Inc.
