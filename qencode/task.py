@@ -64,8 +64,8 @@ class Task(object):
   def status(self):
     return self._status()
 
-  def main_status(self):
-    return self._status2()
+  def extend_status(self):
+    return self._extend_status()
 
   def progress_changed(self, callback, *args, **kwargs):
     while 1:
@@ -187,5 +187,17 @@ class Task(object):
     if status and 'status_url' in status:
       self.status_url = status['status_url']
 
+    return status
+  
+  def _extend_status(self):
+    response = self.connect.post(self.main_status_url, dict(task_tokens=self.task_token))
+    status = None
+
+    if response['error'] == ERROR_BAD_TOKENS:
+      raise ValueError('Bad token: ' + str(self.task_token))
+
+    if 'statuses' in response and self.task_token in response['statuses']:
+      status = response['statuses'][self.task_token]
+      
     return status
 

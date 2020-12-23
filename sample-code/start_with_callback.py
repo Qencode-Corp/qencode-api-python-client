@@ -9,16 +9,22 @@ import time
 import json
 from qencode import QencodeClientException, QencodeTaskException
 
-
 #replace with your API KEY (can be found in your Project settings on Qencode portal)
 API_KEY = 'your-api-qencode-key'
 
-#replace with your Transcoding Profile ID (can be found in your Project settings on Qencode portal)
-TRANSCODING_PROFILEID = 'your-qencode-profile-id'
-
-#replace with a link to your input video
-VIDEO_URL = 'https://qencode.com/static/1.mp4'
-
+params = """
+{"query": {
+  "source": "https://qencode.com/static/1.mp4",
+  "format": [
+    {
+      "output": "mp4",
+      "size": "320x240",
+      "video_codec": "libx264"
+    }
+  ]
+  }
+}
+"""
 
 def progress_changed_handler(status):
   if status['status'] != 'completed':
@@ -31,6 +37,7 @@ def task_completed_handler(status, task_token):
 
 
 def start_encode():
+
   """
     Create client object
     :param api_key: string. required
@@ -46,13 +53,11 @@ def start_encode():
   print 'The client created. Expire date: %s' % client.expire
 
   task = client.create_task()
-  task.start_time = 0.0
-  task.duration = 10.0
 
   if task.error:
     raise QencodeTaskException(task.message)
 
-  task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+  task.custom_start(params)
 
   if task.error:
     raise QencodeTaskException(task.message)
@@ -63,6 +68,5 @@ def start_encode():
   task.progress_changed(progress_changed_handler)
   task.task_completed(task_completed_handler, task.task_token)
 
-
 if __name__ == '__main__':
-   start_encode()
+  start_encode()

@@ -21,15 +21,59 @@ sudo pip install qencode
 ````
 import qencode
 
+API_KEY = 'your-api-qencode-key'
+
+QUERY = """
+{"query": {
+  "source": "https://nyc3.s3.qencode.com/qencode/samples/1080-sample.mov",
+  "format": [
+    {
+      "output": "mp4",
+      "size": "320x240",
+      "video_codec": "libx264"
+    }
+  ]
+  }
+}
+"""
+
 client = qencode.client(API_KEY)
 client.create()
 
 task = client.create_task()
-task.start(TRANSCODING_PROFILEID, VIDEO_URL)
+task.custom_start(QUERY)
+````
 
+````
+#getting status
 
-#getting video metadata:
+status = task.status()
+or
+status = task.extend_status()
+````
+
+````
+#getting video metadata
+
 metadata = client.get_metadata(VIDEO_URL)
+````
+
+**DRM** <sub><sup>*[details](https://docs.qencode.com/api-reference/transcoding/#start_encode2___query__attributes--format__attributes--fps_drm__attributes)*</sup></sub>
+
+````
+# getting Fairplay DRM encryption parameters
+encryption_parameters, payload = cenc_drm(DRM_USERNAME, DRW_PASSWORD)
+
+# getting Widevine and Playready DRM encryption parameters
+encryption_parameters, payload = fps_drm(DRM_USERNAME, DRW_PASSWORD)
+
+````
+
+
+**AWS Signed URL**
+
+````
+source_url = generate_aws_signed_url(region, bucket, object_key, access_key, secret_key, expiration)
 
 ````
 

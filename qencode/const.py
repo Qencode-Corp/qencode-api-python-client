@@ -18,3 +18,7 @@ ERROR_BAD_PROFILE       = 11
 ERROR_PROFILE_NOT_FOUND = 12
 ERROR_BAD_TOKENS        = 13
 ERROR_FIELD_REQUIRED    = 14
+
+FPS_DRM_KEYGENERATOR_URI_TEMPLATE = 'https://cpix.ezdrm.com/KeyGenerator/cpix.aspx?k=%s&u=%s&p=%s&c=resourcename&m=2'
+CENC_DRM_KEYGENERATOR_URI_TEMPLATE = 'https://cpix.ezdrm.com/KeyGenerator/cpix.aspx?k=%s&u=%s&p=%s&c=resourcename&m=1'
+DRM_KEY_URL_TEMPLATE = 'skd://fps.ezdrm.com/;%s'
