@@ -61,6 +61,8 @@ metadata = client.get_metadata(VIDEO_URL)
 **DRM** <sub><sup>*[details](https://docs.qencode.com/api-reference/transcoding/#start_encode2___query__attributes--format__attributes--fps_drm__attributes)*</sup></sub>
 
 ````
+from qencode import fps_drm, cenc_drm
+
 # getting Fairplay DRM encryption parameters
 encryption_parameters, payload = cenc_drm(DRM_USERNAME, DRW_PASSWORD)
 
