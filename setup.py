@@ -30,5 +30,6 @@ setup(
     ],
     keywords='qencode, qencode.com, cloud.qencode.com',
     packages=['qencode', 'qencode.drm'],
+    package_data={'qencode.drm': ['keys/buydrm_qencode_public_cert.pem']},
     include_package_data=True
 )
