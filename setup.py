@@ -29,5 +29,6 @@ setup(
 
     ],
     keywords='qencode, qencode.com, cloud.qencode.com',
-    packages=['qencode', 'qencode.drm']
+    packages=['qencode', 'qencode.drm'],
+    include_package_data=True
 )
