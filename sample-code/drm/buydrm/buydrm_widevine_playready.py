@@ -7,9 +7,7 @@ from qencode.drm.buydrm import create_cpix_user_request
 from qencode import QencodeClientException, QencodeTaskException
 
 # replace with your API KEY (can be found in your Project settings on Qencode portal)
-#API_KEY = 'your-api-qencode-key'
-API_KEY = '5a2a846a26ace'
-#API_KEY = '5a5db6fa5b4c5'
+API_KEY = 'your-api-qencode-key'
 
 # specify path to your BuyDRM certificate files
 USER_PVT_KEY_PATH = './keys/user_private_key.pem'
@@ -62,9 +60,7 @@ def start_encode():
     use_playready=True, use_widevine=True
   )
 
-  #client = qencode.client(API_KEY, api_url='https://stage-sfo2-1-api-do.qencode.com/')
-  #client = qencode.client(API_KEY, api_url='https://qa-sfo2-api-do.qencode.com/')
-  client = qencode.client(API_KEY, api_url='https://prod-nyc1-api-do.qencode.com/')
+  client = qencode.client(API_KEY)
   if client.error:
     raise QencodeClientException(client.message)
 
