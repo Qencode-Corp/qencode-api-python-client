@@ -27,12 +27,6 @@ QUERY = """
     "format": [
       {
         "output": "advanced_dash",
-        "destination": {
-          "url": "s3://nyc3.digitaloceanspaces.com/qencode3/regression_tests/encrypt/buydrm_widevine/dash",
-          "key": "DRSKM355SM7QT4DB7Q37",
-          "secret": "CGE1pypu02SfZ8DDPtZ5l1M5drFoVmAoVUrPBkQdAjM",
-          "permissions": "public-read"
-        },
         "stream": [
           {
             "video_codec": "libx264",
