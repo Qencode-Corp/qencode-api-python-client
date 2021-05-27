@@ -2,6 +2,7 @@ import json
 import urllib
 import urllib2
 from urlparse import urljoin
+import ssl
 
 class Http(object):
   def __init__(self, version, url, debug=False):
@@ -15,8 +16,9 @@ class Http(object):
       return json.dumps(response)
     data = urllib.urlencode(post_data)
     request = urllib2.Request(url, data)
+    context = ssl._create_unverified_context()
     try:
-      res = urllib2.urlopen(request)
+      res = urllib2.urlopen(request, context=context)
     except urllib2.HTTPError as e:
       headers = e.headers if self._debug else ''
       response = dict(error=True, message='HTTPError: {0} {1} {2}'.format(e.code, e.reason, headers))

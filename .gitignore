@@ -8,5 +8,9 @@
 .cache/
 .vscode/
 .idea/
+.eggs/
 build/
 dist/
+qencode.egg-info/
+sample-code/drm/buydrm/keys/user_private_key.pem
+sample-code/drm/buydrm/keys/user_public_cert.pem

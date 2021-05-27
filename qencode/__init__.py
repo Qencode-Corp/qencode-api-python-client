@@ -29,6 +29,7 @@ def x265_video_codec():
 
 from exeptions import QencodeClientException, QencodeTaskException
 
+__version__ = "1.0.3"
 from tools import generate_aws_signed_url, fps_drm, cenc_drm
 
 __version__ = "1.0.1"
