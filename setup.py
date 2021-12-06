@@ -25,11 +25,10 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: Other/Proprietary License',
-        'Programming Language :: Python :: 2.7'
-
+        'Programming Language :: Python :: 2.7',
     ],
     keywords='qencode, qencode.com, cloud.qencode.com',
     packages=['qencode', 'qencode.drm'],
     package_data={'qencode.drm': ['keys/buydrm_qencode_public_cert.pem']},
-    include_package_data=True
+    include_package_data=True,
 )
