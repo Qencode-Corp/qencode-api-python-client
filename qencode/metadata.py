@@ -1,6 +1,8 @@
-from task import *
-from qencode import QencodeTaskException
 import urllib2
+
+from task import *
+
+from qencode import QencodeTaskException
 
 
 class Metadata(Task):

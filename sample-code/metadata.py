@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys
 import os.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+import sys
+
 import qencode
 from qencode import QencodeClientException
 
-#replace with your API KEY (can be found in your Project settings on Qencode portal)
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+)
+
+# replace with your API KEY (can be found in your Project settings on Qencode portal)
 API_KEY = 'your-api-qencode-key'
 VIDEO_URL = 'https://nyc3.s3.qencode.com/qencode/bbb_30s.mp4'
 
@@ -18,7 +22,4 @@ if client.error:
 print 'The client created. Expire date: %s' % client.expire
 
 metadata = client.get_metadata(VIDEO_URL)
-print('Metadata: ' + metadata)
-
-
-
+print ('Metadata: ' + metadata)

@@ -1,15 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys
-import os.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-import qencode
-import time
 import json
-from qencode import QencodeClientException, QencodeTaskException, fps_drm, cenc_drm
+import os.path
+import sys
+import time
 
-#replace with your API KEY (can be found in your Project settings on Qencode portal)
+import qencode
+from qencode import QencodeClientException, QencodeTaskException, cenc_drm, fps_drm
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+)
+
+# replace with your API KEY (can be found in your Project settings on Qencode portal)
 API_KEY = 'your-api-qencode-key'
 DRM_USERNAME = 'my.ezdrm@email.com'
 DRW_PASSWORD = 'your-ezdrm-password'
@@ -40,55 +44,45 @@ QUERY = """
 
 def start_encode():
 
-  """
+    """
     Create client object
     :param api_key: string. required
     :param api_url: string. not required
     :param api_version: int. not required. default 'v1'
     :return: task object
-  """
+    """
 
-  client = qencode.client(API_KEY)
-  if client.error:
-    raise QencodeClientException(client.message)
+    client = qencode.client(API_KEY)
+    if client.error:
+        raise QencodeClientException(client.message)
 
-  print 'The client created. Expire date: %s' % client.expire
+    print 'The client created. Expire date: %s' % client.expire
 
-  task = client.create_task()
+    task = client.create_task()
 
-  if task.error:
-    raise QencodeTaskException(task.message)
-  
-  encryption_parameters, payload = cenc_drm(DRM_USERNAME, DRW_PASSWORD)
-  #encryption_parameters, payload = fps_drm(DRM_USERNAME, DRW_PASSWORD)
-  
-  query = QUERY.replace('{cenc_drm}', json.dumps(encryption_parameters))
+    if task.error:
+        raise QencodeTaskException(task.message)
 
-  task.custom_start(query)
+    encryption_parameters, payload = cenc_drm(DRM_USERNAME, DRW_PASSWORD)
+    # encryption_parameters, payload = fps_drm(DRM_USERNAME, DRW_PASSWORD)
 
-  if task.error:
-    raise QencodeTaskException(task.message)
+    query = QUERY.replace('{cenc_drm}', json.dumps(encryption_parameters))
 
-  print 'Start encode. Task: %s' % task.task_token
+    task.custom_start(query)
 
-  while True:
-    status = task.extend_status()
-    # print status
-    print json.dumps(status, indent=2, sort_keys=True)
-    if status['error'] or status['status'] == 'completed':
-      break
-    time.sleep(5)
+    if task.error:
+        raise QencodeTaskException(task.message)
+
+    print 'Start encode. Task: %s' % task.task_token
+
+    while True:
+        status = task.extend_status()
+        # print status
+        print json.dumps(status, indent=2, sort_keys=True)
+        if status['error'] or status['status'] == 'completed':
+            break
+        time.sleep(5)
+
 
 if __name__ == '__main__':
-  start_encode()
-
-
-
-
-
-
-
-
-
-
-
+    start_encode()
