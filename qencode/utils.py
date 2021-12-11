@@ -1,6 +1,6 @@
-import sys
-import logging
 import json
+import logging
+import sys
 
 
 def is_number(s):

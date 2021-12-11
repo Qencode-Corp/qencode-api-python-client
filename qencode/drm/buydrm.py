@@ -1,6 +1,7 @@
+import os
+
 from lxml import etree
 from signxml import XMLSigner
-import os
 
 NSMAP = {
     'cpix': 'urn:dashif:org:cpix',

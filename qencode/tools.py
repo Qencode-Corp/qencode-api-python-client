@@ -1,12 +1,13 @@
 #
-from const import *
 import datetime
 import hashlib
 import hmac
-import requests
-from requests.utils import quote
-import xml.etree.cElementTree as et
 import uuid
+import xml.etree.cElementTree as et
+
+import requests
+from const import *
+from requests.utils import quote
 
 
 def generate_aws_signed_url(

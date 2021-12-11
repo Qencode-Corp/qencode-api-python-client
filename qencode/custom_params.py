@@ -1,5 +1,6 @@
 import json
 from json import JSONEncoder
+
 from utils import rm_attributes_if_null
 
 

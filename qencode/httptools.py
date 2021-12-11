@@ -1,8 +1,8 @@
 import json
+import ssl
 import urllib
 import urllib2
 from urlparse import urljoin
-import ssl
 
 
 class Http(object):

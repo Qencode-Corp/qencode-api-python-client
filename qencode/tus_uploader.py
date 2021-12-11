@@ -1,4 +1,5 @@
 import sys
+
 from tusclient import client
 from utils import get_tus_from_url
 
