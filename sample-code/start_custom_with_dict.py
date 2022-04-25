@@ -14,7 +14,7 @@ from qencode import QencodeClientException, QencodeTaskException
 API_KEY = 'your-api-qencode-key'
 
 #replace with a link to your input video
-source_url = "https://qencode.com/static/1.mp4"
+source_url = "https://nyc3.digitaloceanspaces.com/qencode/bbb_30s.mp4"
 
 format_240 = dict(
     output="mp4",

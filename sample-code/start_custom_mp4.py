@@ -29,7 +29,7 @@ FORMAT.output = "mp4"
 FORMAT.destination = DESTINATION
 
 #replace with a link to your input video
-params.source = 'https://qencode.com/static/1.mp4'
+params.source = 'https://nyc3.digitaloceanspaces.com/qencode/bbb_30s.mp4'
 params.format = [FORMAT]
 
 
