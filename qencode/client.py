@@ -49,3 +49,17 @@ class QencodeApiClient(object):
         metadata = Metadata(self.access_token, self.connect)
         video_info = metadata.get(uri)
         return video_info
+
+    def tasks(self, start_date='', end_date='', project_name='', status='', limit=10, offset=0, sort='date:desc'):
+        params = {
+            'access_token': self.access_token,
+            'start_date': start_date, 
+            'end_date': end_date,
+            'project_name': project_name,
+            'status': status,
+            'limit': limit,
+            'offset': offset,
+            'sort': sort
+        }
+        response = self.connect.request('tasks', params)
+        return response
