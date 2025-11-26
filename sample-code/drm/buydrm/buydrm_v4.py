@@ -23,7 +23,6 @@ query_json = 'query.json'
 # correspond to stream resolution in query.json
 key_ids = [
   { 'kid': str(uuid.uuid4()), 'track_type': 'SD' }, 
-  { 'kid': str(uuid.uuid4()), 'track_type': 'HD' }
 ]
 # need for BuyDRM
 media_id = 'my asset' 

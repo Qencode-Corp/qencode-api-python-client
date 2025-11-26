@@ -5,8 +5,7 @@
       {
         "output": "advanced_dash",
         "stream": [
-{ "video_codec": "libx264", "height": 360, "audio_bitrate": 128, "keyframe": 25, "bitrate": 950 },
-{ "video_codec": "libx264", "height": 720, "audio_bitrate": 128, "keyframe": 25, "bitrate": 2000 }
+{ "video_codec": "libx264", "height": 360, "audio_bitrate": 128, "keyframe": 25, "bitrate": 950 }
         ],
         "buydrm_drm": {
           "request": "{cpix_request}"
