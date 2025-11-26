@@ -1,0 +1,18 @@
+{
+  "query": {
+    "encoder_version": "2", 
+    "format": [
+      {
+        "output": "advanced_dash",
+        "stream": [
+{ "video_codec": "libx264", "height": 360, "audio_bitrate": 128, "keyframe": 25, "bitrate": 950 },
+{ "video_codec": "libx264", "height": 720, "audio_bitrate": 128, "keyframe": 25, "bitrate": 2000 }
+        ],
+        "buydrm_drm": {
+          "request": "{cpix_request}"
+        }
+      }
+    ],
+    "source": "https://nyc3.s3.qencode.com/qencode/bbb_30s.mp4"
+  }
+}
