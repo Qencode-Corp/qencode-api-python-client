@@ -11,8 +11,8 @@ from qencode import QencodeClientException, QencodeTaskException
 API_KEY = 'your-api-qencode-key'
 # specify path to your BuyDRM certificate files, 
 # for example create dir keys/ and put keys into
-enduser_pvk_path = 'keys/user-private_key.pem'
-enduser_pub_path = 'keys/user-public_cert.pem'
+USER_PVT_KEY_PATH = 'keys/user-private_key.pem'
+USER_PUB_CERT_PATH = 'keys/user-public_cert.pem'
 # Qencode query template for job with {cpix_request}
 query_json = 'query.json'
 # correspond to stream resolution in query.json
@@ -36,7 +36,7 @@ def start_encode():
   cpix_request = create_cpix_user_request(
     key_ids, media_id,
     content_id, common_encryption,
-    enduser_pvk_path, enduser_pub_path, #delivery_public_cert_path=None,  # if None - get from SDK, else - set public Qenocde certificate
+    USER_PVT_KEY_PATH, USER_PUB_CERT_PATH, #delivery_public_cert_path=None,  # if None - get from SDK, else - set public Qenocde certificate
     use_playready=drm_list['PR'], use_widevine=drm_list['WV'], use_fairplay=drm_list['FP']
   )
 
