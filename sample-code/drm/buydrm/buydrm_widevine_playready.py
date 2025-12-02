@@ -1,87 +1,79 @@
+import base64
+import json
 import uuid
 import time
-import json
-import base64
 import qencode
-from qencode.drm.buydrm import create_cpix_user_request
+from qencode.drm.buydrm_v4 import create_cpix_user_request
 from qencode import QencodeClientException, QencodeTaskException
 
 # replace with your API KEY (can be found in your Project settings on Qencode portal)
+# https://portal.qencode.com/
 API_KEY = 'your-api-qencode-key'
 
-# specify path to your BuyDRM certificate files
-USER_PVT_KEY_PATH = './keys/user_private_key.pem'
-USER_PUB_CERT_PATH = './keys/user_public_cert.pem'
+# specify path to your BuyDRM certificate files, 
+# for example create dir keys/ and put keys into
+USER_PVT_KEY_PATH = 'keys/user-private_key.pem'
+USER_PUB_CERT_PATH = 'keys/user-public_cert.pem'
 
+# Qencode query template for job with {cpix_request}
+query_json = 'query.json'
+# correspond to stream resolution in query.json
 key_ids = [
   { 'kid': str(uuid.uuid4()), 'track_type': 'SD' },
   { 'kid': str(uuid.uuid4()), 'track_type': 'HD' }
 ]
+
 media_id = 'my first stream'
+content_id = 'my movies group'
+common_encryption = 'cenc'
 
-
-
-QUERY = """
-{
-  "query": {
-    "format": [
-      {
-        "output": "advanced_dash",
-        "stream": [
-          {
-            "video_codec": "libx264",
-            "height": 360,
-            "audio_bitrate": 128,
-            "keyframe": 25,
-            "bitrate": 950
-          }
-        ],
-        "buydrm_drm": {
-          "request": "{cpix_request}"
-        }
-      }
-    ],
-    "source": "https://nyc3.s3.qencode.com/qencode/bbb_30s.mp4"
-  }
+# unified with the new BuyDRM API params
+drm_list = {
+  'PR': True, # use_playready
+  'WV': True, # use_widevine
+  'FP': False # use_fairplay
 }
-"""
-
 
 def start_encode():
-  # this creates signed request to BuyDRM
   cpix_request = create_cpix_user_request(
-    key_ids, media_id, USER_PVT_KEY_PATH, USER_PUB_CERT_PATH,
-    use_playready=True, use_widevine=True
+    key_ids, media_id,
+    content_id, common_encryption,
+    USER_PVT_KEY_PATH, USER_PUB_CERT_PATH, 
+    use_playready=drm_list['PR'], use_widevine=drm_list['WV'], use_fairplay=drm_list['FP']
   )
 
   client = qencode.client(API_KEY)
   if client.error:
     raise QencodeClientException(client.message)
 
-  print 'The client created. Expire date: %s' % client.expire
+  print('The client created. Expire date: %s' % client.expire)
 
   task = client.create_task()
 
   if task.error:
     raise QencodeTaskException(task.message)
 
-  query = QUERY.replace('{cpix_request}', base64.b64encode(cpix_request))
+  template = open(query_json, 'r').read()
+
+  query = template.replace('{cpix_request}', base64.b64encode(cpix_request))
 
   task.custom_start(query)
 
   if task.error:
     raise QencodeTaskException(task.message)
-
-  print 'Start encode. Task: %s' % task.task_token
+  task_token = task.task_token
+  print('Start encode. Task: %s' % task_token)
 
   while True:
     status = task.status()
-    # print status
-    print json.dumps(status, indent=2, sort_keys=True)
+    print('Job %s status: \n %s' % (task_token, json.dumps(status, indent=2, sort_keys=True)))
     if status['error'] or status['status'] == 'completed':
       break
     time.sleep(5)
-
-
+  status = task.extend_status()
+  print('Job %s finished with status "%s" and error: %s' % \
+       (task_token, status['status'], status['error'])
+  )
+  
 if __name__ == '__main__':
   start_encode()
