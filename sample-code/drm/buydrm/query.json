@@ -1,11 +1,17 @@
 {
   "query": {
-    "encoder_version": "2", 
+    "encoder_version": "2",
     "format": [
       {
         "output": "advanced_dash",
         "stream": [
-{ "video_codec": "libx264", "height": 360, "audio_bitrate": 128, "keyframe": 25, "bitrate": 950 }
+          {
+            "video_codec": "libx264",
+            "height": 360,
+            "audio_bitrate": 128,
+            "keyframe": 25,
+            "bitrate": 950
+          }
         ],
         "buydrm_drm": {
           "request": "{cpix_request}"
