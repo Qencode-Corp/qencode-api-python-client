@@ -8,11 +8,13 @@ import const
 def create_cpix_user_request(
     key_ids, media_id,
     content_id, commonEncryptionScheme,
-    private_key, public_cert, delivery_public_cert=None,
+    private_key_path, public_cert_path, delivery_public_cert_path=None,
     use_playready=False, use_widevine=False, use_fairplay=False,
     nsmap=const.NSMAP
   ):
-  if delivery_public_cert is None:
+  private_key = open(private_key_path, 'r').read()
+  public_cert = open(public_cert_path, 'r').read()
+  if delivery_public_cert_path is None:
     delivery_public_cert_path = (os.path.dirname(__file__) + '/keys/qencode-public_cert.pem')
     delivery_public_cert = open(delivery_public_cert_path, 'rb').read()
 
